@@ -44,13 +44,21 @@ namespace RationalizingIslam.DocumentModel
 			return result;	
 		}				  
 
-		public static string GetSimplifiedArabicString(string originalArabicString)
+		public static string GetSimplifiedArabicString(string originalArabicString, bool throwErrorOnUnknownCharacter)
 		{
 			if (string.IsNullOrEmpty(originalArabicString))
 				return originalArabicString;
 			var result = new StringBuilder();
-			foreach (char arabicChar in originalArabicString)
-				result.Append(Letters[arabicChar]);
+            foreach (char arabicChar in originalArabicString)
+            {
+                string letter;
+                if (Letters.TryGetValue(arabicChar, out letter))
+                    result.Append(Letters[arabicChar]);
+                else if (throwErrorOnUnknownCharacter)
+                {
+                    throw new KeyNotFoundException(arabicChar.ToString());
+                }
+            }
 			return result.ToString();
 		}
 																  
