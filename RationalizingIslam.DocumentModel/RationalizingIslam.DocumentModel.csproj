@@ -54,6 +54,11 @@
     <Compile Include="ArabicAlphabet.cs" />
     <Compile Include="ChapterAndVerse.cs" />
     <Compile Include="CollectionAndHadith.cs" />
+    <Compile Include="Lexicon.cs" />
+    <Compile Include="LexiconDocument.cs" />
+    <Compile Include="LexiconDocumentVisitor.cs" />
+    <Compile Include="LexiconEntry.cs" />
+    <Compile Include="LexiconLetter.cs" />
     <Compile Include="MultiPartReference.cs" />
     <Compile Include="Factories\CorpusDocumentFactory.cs" />
     <Compile Include="Factories\DocumentFactory.cs" />

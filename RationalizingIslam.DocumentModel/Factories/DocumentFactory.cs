@@ -13,12 +13,13 @@ namespace RationalizingIslam.DocumentModel.Factories
 		TafsirDocument Tafsir;
 		WordsDocument RootWords;
 		CorpusDocument Corpus;
+        LexiconDocument Lexicons;
 		string GeneratedTranslationsDirectory;
 		string GeneratedHadithsDirectory;
 		string AdditionalHadithXRefsDirectory;
 		string GeneratedTafsirsDirectory;
 		string GeneratedCorpusXmlFilePath;
-		string GeneratedLaneLexiconXmlFilePath;
+		string GeneratedLexiconsXmlDirectory;
 
 		public Document Create(
 			string generatedTranslationsDirectory,
@@ -26,7 +27,7 @@ namespace RationalizingIslam.DocumentModel.Factories
 			string additionalHadithXRefsDirectory,
 			string generatedTafsirsDirectory,
 			string generatedCorpusXmlFilePath,
-			string generatedLaneLexiconXmlFilePath
+			string generatedLexiconsXmlDirectory
 			)
 		{
 			this.GeneratedTranslationsDirectory = generatedTranslationsDirectory;
@@ -34,19 +35,21 @@ namespace RationalizingIslam.DocumentModel.Factories
 			this.AdditionalHadithXRefsDirectory = additionalHadithXRefsDirectory;
 			this.GeneratedTafsirsDirectory = generatedTafsirsDirectory;
 			this.GeneratedCorpusXmlFilePath = generatedCorpusXmlFilePath;
-			this.GeneratedLaneLexiconXmlFilePath = generatedLaneLexiconXmlFilePath;
+			this.GeneratedLexiconsXmlDirectory = generatedLexiconsXmlDirectory;
 
 			CreateQuran();
 			CreateHadith();
 			CreateTafsir();
 			CreateRootWords();
 			CreateCorpus();
+            CreateLexicons();
 			return new Document(
 					quranDocument: Quran,
 					hadithDocument: Hadith,
 					tafsirDocument: Tafsir,
 					rootWordsDocument: RootWords,
-					corpusDocument: Corpus
+					corpusDocument: Corpus,
+                    lexiconDocument: null
 				);
 		}
 
@@ -87,6 +90,13 @@ namespace RationalizingIslam.DocumentModel.Factories
 			var factory = new CorpusDocumentFactory();
 			Corpus = factory.Create(GeneratedCorpusXmlFilePath);
 		}
+
+        void CreateLexicons()
+        {
+            Console.WriteLine("Creating lexicons");
+            var factory = new LexiconDocumentFactory();
+            Lexicons = factory.Create(GeneratedLexiconsXmlDirectory);
+        }
 
 	}
 }

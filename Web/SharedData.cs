@@ -19,7 +19,7 @@ namespace QuranX
                     additionalHadithXRefsDirectory: Path.Combine(appDataDirectory, "HadithXRefs"),
                     generatedTafsirsDirectory: Path.Combine(appDataDirectory, "Tafsirs"),
                     generatedCorpusXmlFilePath: Path.Combine(appDataDirectory, "CorpusQuran.xml"),
-					generatedLaneLexiconXmlFilePath: Path.Combine(appDataDirectory, "LaneLexicon/LaneLexicon.xml")
+					generatedLexiconXmlFilePath: Path.Combine(appDataDirectory, "LaneLexicon/LaneLexicon.xml")
                 );
         }
 
