@@ -29,7 +29,7 @@ namespace RationalizingIslam.DocumentModel
 
         public void AddEntry(LexiconEntry entry)
         {
-            EntriesByRoot.Add(entry.Root, entry);
+            EntriesByRoot[entry.Root] = entry;
         }
 
     }

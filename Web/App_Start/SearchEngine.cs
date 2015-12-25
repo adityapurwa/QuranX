@@ -43,7 +43,7 @@ namespace QuranX
 
 		static SearchEngine()
 		{
-			string luceneData = HttpContext.Current.Server.MapPath("~/app_data/lucene");
+			string luceneData = HttpContext.Current.Server.MapPath("~/app_data/Lucene");
 			Analyzer = 
 				new ArabicAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 			bool needsIndexCreation = false;
