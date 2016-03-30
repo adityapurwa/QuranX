@@ -192,9 +192,13 @@
     <Content Include="App_Data\HadithXRefs\MaliksMuwatta.txt" />
     <Content Include="App_Data\HadithXRefs\Muslim.txt" />
     <Content Include="App_Data\HadithXRefs\Nasai.txt" />
+    <Content Include="App_Data\MissingRoots.txt" />
     <Content Include="App_Data\Tafsirs\Abbas.xml" />
+    <Content Include="App_Data\Tafsirs\Asrar.xml" />
     <Content Include="App_Data\Tafsirs\Jalal.xml" />
+    <Content Include="App_Data\Tafsirs\Kashani.xml" />
     <Content Include="App_Data\Tafsirs\Maududi.xml" />
+    <Content Include="App_Data\Tafsirs\Qushairi.xml" />
     <Content Include="App_Data\Tafsirs\Tustari.xml" />
     <Content Include="App_Data\Tafsirs\Wahidi.xml" />
     <Content Include="App_Data\Translations\AhmadAli.xml" />
@@ -217,11 +221,13 @@
     <Content Include="App_Data\Translations\Wahiduddin.xml" />
     <Content Include="App_Data\Translations\YusufAli.xml" />
     <Content Include="Content\Images\HeaderRepeat.jpg" />
+    <Content Include="Content\Images\MagnifyingGlass.png" />
     <Content Include="Content\Images\NavigateAll.png" />
     <Content Include="Content\Images\NavigateNext.png" />
     <Content Include="Content\Images\NavigatePrevious.png" />
     <Content Include="Content\Images\QuranX.png" />
     <Content Include="Content\Images\QuranXSocialIcon.png" />
+    <Content Include="Content\Images\sponsor.png" />
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -285,7 +291,9 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\Lexicons\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

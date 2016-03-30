@@ -104,6 +104,22 @@ dd {
 	margin-bottom: 0.5em;
 }
 
+#sponsor {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    text-align: center;
+}
+
+#sponsor a {
+    color: #ddd;
+    font-weight: bold;
+}
+
+#sponsor a:hover {
+    color:white;
+}
+
 #contentsHolder {
 	margin: 1em;
 }
