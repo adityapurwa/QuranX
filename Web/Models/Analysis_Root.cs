@@ -51,6 +51,7 @@ namespace QuranX.Models
 		public CorpusVerseWord[] PrecedingWords { get; private set; }
 		public WordReference WordReference { get; private set; }
 		public CorpusVerseWord[] FollowingWords { get; private set; }
+        public string BuckwalterWord { get; private set; }
 
 		public Analysis_VerseExtract(WordReference wordReference)
 		{
@@ -73,6 +74,9 @@ namespace QuranX.Models
 					x.Index > wordIndex
 					&& x.Index <= wordIndex + NumberOfSurroundingWordsToDisplay)
 				.ToArray();
+
+            BuckwalterWord = wordReference.BuckwalterText;
+
 		}
 	}
 }
