@@ -428,7 +428,13 @@ dl.countAndLabel {
 		}
 
 table.wordTable {
+    border-spacing: 10px;
+    border-collapse: separate;
 }
+
+    table.wordTable th {
+        text-align: left;
+    }
 
 	table.wordTable tbody tr:nth-child(even) {
 		background-color: #f8f8f8;
@@ -438,7 +444,9 @@ table.wordTable {
 	}
 
 	table.wordTable td {
+        
 	}
+
 
 .highlight {
 	font-weight: bold;

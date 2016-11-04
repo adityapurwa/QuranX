@@ -11,7 +11,7 @@ namespace QuranX.Models
 		readonly Word Word;
 		public string ArabicRoot { get; private set; }
 		public string LetterNames { get; private set; }
-		public Analysis_WordTypeGroup[] WordTypeGroups { get; private set; }
+		public Analysis_WordUsageWithVerseExtract[] WordUseages { get; private set; }
 
 		public Analysis_Root(string arabicRoot)
 		{
@@ -21,27 +21,24 @@ namespace QuranX.Models
 			this.ArabicRoot = arabicRoot;
 			this.Word = SharedData.Document.RootWordsDocument[ArabicRoot];
 			this.LetterNames = QuranX.ArabicHelper.ArabicToLetterNames(ArabicRoot);
-			this.WordTypeGroups =
+			this.WordUseages =
 				Word.References
-				.GroupBy(x => x.WordTypeDescription)
-				.OrderBy(x => x.Key)
-				.Select(x => new Analysis_WordTypeGroup(x))
+				.OrderBy(x => x.ChapterIndex)
+                .ThenBy(x => x.VerseIndex)
+				.Select(x => new Analysis_WordUsageWithVerseExtract(x))
 				.ToArray();
 		}
 	}
 
-	public class Analysis_WordTypeGroup
+	public class Analysis_WordUsageWithVerseExtract
 	{
-		public string WordTypeDescription { get; private set; }
-		public Analysis_VerseExtract[] Extracts { get; private set; }
+		public Analysis_VerseExtract Extract { get; private set; }
+        public WordReference Reference { get; private set; }
 
-		public Analysis_WordTypeGroup(IGrouping<string, WordReference> groupData)
+		public Analysis_WordUsageWithVerseExtract(WordReference wordReference)
 		{
-			this.WordTypeDescription = groupData.Key;
-			this.Extracts =
-				groupData
-				.Select(x => new Analysis_VerseExtract(x))
-				.ToArray();
+			this.Extract = new Analysis_VerseExtract(wordReference);
+            this.Reference = wordReference;
 		}
 	}
 
