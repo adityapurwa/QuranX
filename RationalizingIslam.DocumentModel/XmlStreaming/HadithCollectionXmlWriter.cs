@@ -50,9 +50,9 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
 
         void WriteHadiths()
         {
-            //using (Xml.WriteElement("hadiths"))
-            foreach (Hadith hadith in Collection.Hadiths.OrderBy(x => x.Reference))
-                WriteHadith(hadith);
+            using (Xml.WriteElement("hadiths"))
+                foreach (Hadith hadith in Collection.Hadiths.OrderBy(x => x.Reference))
+                    WriteHadith(hadith);
         }
 
         void WriteHadith(Hadith hadith)

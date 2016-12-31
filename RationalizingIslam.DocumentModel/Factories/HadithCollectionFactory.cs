@@ -76,7 +76,8 @@ namespace RationalizingIslam.DocumentModel.Factories
 
 		void ReadHadiths(XElement collectionNode)
 		{
-			foreach (XElement hadithNode in collectionNode.Elements("hadith"))
+
+			foreach (XElement hadithNode in collectionNode.Descendants("hadith"))
 			{
 				ReadHadith(hadithNode);
 			}
