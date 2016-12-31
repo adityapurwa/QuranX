@@ -12,9 +12,10 @@ namespace RationalizingIslam.DocumentModel
         public bool IsPrimary { get; private set; }
         public string Code { get; private set; }
         public string Name { get; private set; }
+        public string ValuePrefix { get; private set; }
         public ReadOnlyCollection<string> PartNames { get; private set; }
 
-        public HadithReferenceDefinition(bool isPrimary, string code, string name, IEnumerable<string> partNames)
+        public HadithReferenceDefinition(bool isPrimary, string code, string name, IEnumerable<string> partNames, string valuePrefix = null)
         {
             if (string.IsNullOrWhiteSpace(code))
                 throw new ArgumentNullException(nameof(code));
@@ -29,6 +30,7 @@ namespace RationalizingIslam.DocumentModel
             this.Code = code;
             this.Name = name;
             this.PartNames = new ReadOnlyCollection<string>(partNames.ToArray());
+            this.ValuePrefix = valuePrefix;
         }
 
         public static bool operator==(HadithReferenceDefinition first, HadithReferenceDefinition second)

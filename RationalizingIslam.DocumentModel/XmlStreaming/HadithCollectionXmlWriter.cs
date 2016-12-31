@@ -65,6 +65,7 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
                 Xml.WriteElementString("isPrimary", definition.IsPrimary + "");
                 Xml.WriteElementString("code", definition.Code);
                 Xml.WriteElementString("name", definition.Name);
+                Xml.WriteElementString("valuePrefix", definition.ValuePrefix);
                 using (Xml.WriteElement("parts"))
                 {
                     foreach (string partName in definition.PartNames)
@@ -84,10 +85,29 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
         {
             using (Xml.WriteElement("hadith"))
             {
+                WriteHadithReferences(hadith);
                 WriteHadithReference(hadith.Reference);
                 WriteHadithSecondaryReferences(hadith);
                 WriteHadithText(hadith);
                 WriteHadithVerseReferences(hadith);
+            }
+        }
+
+        void WriteHadithReferences(Hadith hadith)
+        {
+            using (Xml.WriteElement("references"))
+                foreach (var reference in hadith.References)
+                    WriteHadithReference(reference);
+        }
+
+        void WriteHadithReference(HadithReference reference)
+        {
+            using (Xml.WriteElement("reference"))
+            {
+                Xml.WriteElementString("code", reference.Code);
+                using (Xml.WriteElement("parts"))
+                    foreach (string partValue in reference)
+                        Xml.WriteElementString("part", partValue);
             }
         }
 

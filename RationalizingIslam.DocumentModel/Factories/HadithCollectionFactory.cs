@@ -88,6 +88,7 @@ namespace RationalizingIslam.DocumentModel.Factories
 		{
 			var reference = MultiPartReference.ParseXml(hadithNode.Element("reference"));
 			var secondaryReferences = ReadSecondaryReferences(hadithNode.Element("secondaryReferences"));
+            var references = ReadReferences(hadithNode.Element("references"));
 			var verseReferences = ReadVerseReferences(hadithNode.Element("verseReferences"));
 			var englishTextNode = hadithNode.Element("english");
 			var englishText = englishTextNode.Elements("text").Select(x => x.Value);
@@ -108,6 +109,25 @@ namespace RationalizingIslam.DocumentModel.Factories
 				);
 			Collection.AddHadith(hadith);
 		}
+
+        IEnumerable<HadithReference> ReadReferences(XElement referencesNode)
+        {
+            var result = new List<HadithReference>();
+            if (referencesNode != null)
+            {
+                foreach (XElement referenceNode in referencesNode.Elements("reference"))
+                {
+                    string code = referenceNode.Element("code").Value;
+                    var parts = new List<string>();
+                    XElement partsNode = referenceNode.Element("parts");
+                    foreach (XElement partNode in partsNode.Elements("part"))
+                        parts.Add(partNode.Value);
+                    var reference = new HadithReference(code, parts);
+                    result.Add(reference);
+                }
+            }
+            return result;
+        }
 
 		IEnumerable<KeyValuePair<string, string>> ReadSecondaryReferences(XElement parentNode)
 		{

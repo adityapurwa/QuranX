@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace RationalizingIslam.DocumentModel
 {
@@ -17,6 +16,12 @@ namespace RationalizingIslam.DocumentModel
         public HadithReference(string code, IEnumerable<string> values)
             : this()
         {
+            if (string.IsNullOrWhiteSpace(code))
+                throw new ArgumentNullException(nameof(code));
+            if (values == null || values.Count() == 0 || values.Any(x => string.IsNullOrWhiteSpace(x)))
+                throw new ArgumentException(nameof(values), "Must be an array of non-empty values");
+
+            this.Code = code;
             Values = values.ToList().AsReadOnly();
         }
 
