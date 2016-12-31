@@ -122,7 +122,7 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
             WriteHadithParagraphs("english", hadith.EnglishText);
         }
 
-        void WriteHadithParagraphs(string elementName, string[] paragraphs)
+        void WriteHadithParagraphs(string elementName, IEnumerable<string> paragraphs)
         {
             paragraphs = paragraphs ?? new string[0];
             using (Xml.WriteElement(elementName))

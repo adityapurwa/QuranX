@@ -28,7 +28,7 @@ namespace RationalizingIslam.DocumentModel
             this.IsPrimary = isPrimary;
             this.Code = code;
             this.Name = name;
-            this.PartNames = new ReadOnlyCollection<string>(partNames.ToList());
+            this.PartNames = new ReadOnlyCollection<string>(partNames.ToArray());
         }
 
         public static bool operator==(HadithReferenceDefinition first, HadithReferenceDefinition second)

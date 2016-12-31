@@ -96,16 +96,15 @@ namespace RationalizingIslam.DocumentModel.Factories
 
 			HashSet<VerseRangeReference> additionalVerseReferences;
 			if (VersesByHadith.TryGetValue(reference, out additionalVerseReferences))
-			{
 				verseReferences = verseReferences.Concat(additionalVerseReferences);
-			}
 
 			var hadith = new Hadith(
 					reference: reference,
 					otherReferences: secondaryReferences,
 					arabicText: arabicText,
 					englishText: englishText,
-					verseReferences: verseReferences
+					verseReferences: verseReferences,
+                    references: new HadithReference[0] //TODO: Read from XML
 				);
 			Collection.AddHadith(hadith);
 		}

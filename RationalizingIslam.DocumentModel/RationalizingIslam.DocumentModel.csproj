@@ -55,6 +55,7 @@
     <Compile Include="ChapterAndVerse.cs" />
     <Compile Include="CollectionAndHadith.cs" />
     <Compile Include="Factories\LexiconDocumentFactory.cs" />
+    <Compile Include="HadithReference.cs" />
     <Compile Include="HadithReferenceDefinition.cs" />
     <Compile Include="HelperClasses\DisposableAction.cs" />
     <Compile Include="HelperClasses\XmlWriterExtensions.cs" />

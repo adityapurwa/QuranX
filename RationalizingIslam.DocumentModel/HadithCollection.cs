@@ -25,8 +25,8 @@ namespace RationalizingIslam.DocumentModel
 			this.Code = code;
 			this.Name = name;
 			this.Copyright = copyright;
-            this.ReferencePartNames = new ReadOnlyCollection<string>(referencePartNames.ToList());
-            this.ReferenceDefinitions = new ReadOnlyCollection<HadithReferenceDefinition>(referenceDefinitions.ToList());
+            this.ReferencePartNames = new ReadOnlyCollection<string>(referencePartNames.ToArray());
+            this.ReferenceDefinitions = new ReadOnlyCollection<HadithReferenceDefinition>(referenceDefinitions.ToArray());
 			this._Hadiths = new Dictionary<MultiPartReference, Hadith>();
 			this.HadithsByVerse = new Dictionary<VerseReference, List<Hadith>>();
 		}
