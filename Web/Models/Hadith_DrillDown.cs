@@ -47,7 +47,7 @@ namespace QuranX.Models
 					.ToList();
 				referencePartIndex++;
 			}
-			if (referencePartIndex < Collection.ReferencePartNames.Length)
+			if (referencePartIndex < Collection.ReferencePartNames.Count)
 			{
 				NextKeyPartName = Collection.ReferencePartNames[referencePartIndex];
 				NextKeyPartSelection = HadithsInCurrentSelection.Select(x => x.Reference[referencePartIndex]).Distinct();

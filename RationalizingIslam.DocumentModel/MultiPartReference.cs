@@ -31,14 +31,16 @@ namespace RationalizingIslam.DocumentModel
 			get { return Parts[index]; }
 		}
 
-		public string GetCaption(string[] referencePartNames)
+		public string GetCaption(IEnumerable<string> referencePartNames)
 		{
-			var captionParts = new string[referencePartNames.Length];
-			for (int index = 0; index < referencePartNames.Length; index++)
+            var captionParts = referencePartNames.ToArray();
+            int index = -1;
+			foreach(string referencePartName in referencePartNames)
 			{
+                index++;
 				captionParts[index] = string.Format(
 						"{0} {1}", 
-						referencePartNames[index], 
+						referencePartName, 
 						Parts[index]
 					);
 			}
@@ -109,7 +111,11 @@ namespace RationalizingIslam.DocumentModel
 
 		public static bool operator ==(MultiPartReference first, MultiPartReference second)
 		{
-			return first.CompareTo(second) == 0;
+            if (first == null && second == null)
+                return true;
+            if (first == null || second == null)
+                return false;
+            return first.CompareTo(second) == 0;
 		}
 
 		public static bool operator !=(MultiPartReference first, MultiPartReference second)

@@ -42,7 +42,7 @@ namespace QuranX.Controllers
 			foreach (var hadith in hadiths)
 			{
 				string url = Domain + "/hadith/" + collectionCode + "/";
-				for (int index = 0; index < hadithCollection.ReferencePartNames.Length; index++)
+				for (int index = 0; index < hadithCollection.ReferencePartNames.Count; index++)
 					url += hadithCollection.ReferencePartNames[index] + "-" + hadith.Reference[index] + "/";
 				urls.Add(url);
 			}

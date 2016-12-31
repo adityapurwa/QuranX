@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace RationalizingIslam.DocumentModel
@@ -10,18 +11,22 @@ namespace RationalizingIslam.DocumentModel
 		public readonly string Code;
 		public readonly string Name;
 		public readonly string Copyright;
-		public readonly string[] ReferencePartNames;
+		public readonly ReadOnlyCollection<string> ReferencePartNames;
+        public readonly ReadOnlyCollection<HadithReferenceDefinition> ReferenceDefinitions;
 
 		public HadithCollection(
 			string code, 
 			string name, 
 			string copyright,
-			string[] referencePartNames)
+			IEnumerable<string> referencePartNames,
+            IEnumerable<HadithReferenceDefinition> referenceDefinitions)
 		{
+            referenceDefinitions = referenceDefinitions ?? new HadithReferenceDefinition[0];
 			this.Code = code;
 			this.Name = name;
 			this.Copyright = copyright;
-			this.ReferencePartNames = referencePartNames;
+            this.ReferencePartNames = new ReadOnlyCollection<string>(referencePartNames.ToList());
+            this.ReferenceDefinitions = new ReadOnlyCollection<HadithReferenceDefinition>(referenceDefinitions.ToList());
 			this._Hadiths = new Dictionary<MultiPartReference, Hadith>();
 			this.HadithsByVerse = new Dictionary<VerseReference, List<Hadith>>();
 		}

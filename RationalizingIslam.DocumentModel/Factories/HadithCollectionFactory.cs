@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using RationalizingIslam.DocumentModel;
 
 namespace RationalizingIslam.DocumentModel.Factories
 {
@@ -19,7 +18,8 @@ namespace RationalizingIslam.DocumentModel.Factories
 			string code = collectionNode.Element("code").Value;
 			string name = collectionNode.Element("name").Value;
 			string copyright = collectionNode.Element("copyright").Value;
-			string[] referencePartNames = ReadRefeferenceDefinition(collectionNode);
+			string[] referencePartNames = ReadReferenceDefinition(collectionNode);
+            HadithReferenceDefinition[] referenceDefinitions = ReadReferenceDefinitions(collectionNode);
 
 			CreateAdditionalHadithXRefs(
 					tafsirCode: code, 
@@ -30,7 +30,8 @@ namespace RationalizingIslam.DocumentModel.Factories
 					code: code,
 					name: name,
 					copyright: copyright,
-					referencePartNames: referencePartNames
+					referencePartNames: referencePartNames,
+                    referenceDefinitions: referenceDefinitions
 				);
 			ReadHadiths(collectionNode);
 			return Collection;
@@ -125,7 +126,7 @@ namespace RationalizingIslam.DocumentModel.Factories
 				.Select(x => VerseRangeReference.ParseXml(x));
 		}
 
-		string[] ReadRefeferenceDefinition(XElement rootNode)
+		string[] ReadReferenceDefinition(XElement rootNode)
 		{
 			return rootNode
 				.Element("referenceDefinition")
@@ -133,6 +134,32 @@ namespace RationalizingIslam.DocumentModel.Factories
 				.Select(x => x.Value)
 				.ToArray();
 		}
+
+        HadithReferenceDefinition[] ReadReferenceDefinitions(XElement rootNode)
+        {
+            var result = new List<HadithReferenceDefinition>();
+            var referenceDefinitionsNode = rootNode.Element("referenceDefinitions");
+            if (referenceDefinitionsNode != null)
+            {
+                foreach (XElement referenceDefinitionNode in referenceDefinitionsNode.Elements("referenceDefinition"))
+                {
+                    bool isPrimary = bool.Parse(referenceDefinitionNode.Element("isPrimary").Value);
+                    string code = referenceDefinitionNode.Element("code").Value;
+                    string name = referenceDefinitionNode.Element("name").Value;
+                    var partNames = new List<string>();
+                    var partsNode = referenceDefinitionNode.Element("parts");
+                    foreach (XElement partNode in partsNode.Elements("part"))
+                        partNames.Add(partNode.Value);
+                    var definition = new HadithReferenceDefinition(
+                        isPrimary: isPrimary,
+                        code: code,
+                        name: name,
+                        partNames: partNames);
+                    result.Add(definition);
+                }
+            }
+            return result.ToArray();
+        }
 
 	}
 }

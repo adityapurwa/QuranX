@@ -35,6 +35,7 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
                 Xml.WriteElementString("name", Collection.Name);
                 Xml.WriteElementString("copyright", Collection.Copyright);
                 WritePrimaryReferenceDefinition();
+                WriteHadithReferenceDefinitions();
                 WriteHadiths();
             }
         }
@@ -45,6 +46,30 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
             {
                 foreach (string partName in Collection.ReferencePartNames)
                     Xml.WriteElementString("definition", partName);
+            }
+        }
+
+        void WriteHadithReferenceDefinitions()
+        {
+            using (Xml.WriteElement("referenceDefinitions"))
+            {
+                foreach (var definition in Collection.ReferenceDefinitions)
+                    WriteHadithReferenceDefinition(definition);
+            }
+        }
+
+        void WriteHadithReferenceDefinition(HadithReferenceDefinition definition)
+        {
+            using (Xml.WriteElement("referenceDefinition"))
+            {
+                Xml.WriteElementString("isPrimary", definition.IsPrimary + "");
+                Xml.WriteElementString("code", definition.Code);
+                Xml.WriteElementString("name", definition.Name);
+                using (Xml.WriteElement("parts"))
+                {
+                    foreach (string partName in definition.PartNames)
+                        Xml.WriteElementString("part", partName);
+                }
             }
         }
 
