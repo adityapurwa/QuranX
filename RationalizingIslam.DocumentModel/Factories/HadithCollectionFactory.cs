@@ -29,7 +29,7 @@ namespace RationalizingIslam.DocumentModel.Factories
 			Collection = new HadithCollection(
 					code: code,
 					name: name,
-					copyRight: copyright,
+					copyright: copyright,
 					referencePartNames: referencePartNames
 				);
 			ReadHadiths(collectionNode);

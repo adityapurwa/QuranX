@@ -55,6 +55,8 @@
     <Compile Include="ChapterAndVerse.cs" />
     <Compile Include="CollectionAndHadith.cs" />
     <Compile Include="Factories\LexiconDocumentFactory.cs" />
+    <Compile Include="HelperClasses\DisposableAction.cs" />
+    <Compile Include="HelperClasses\XmlWriterExtensions.cs" />
     <Compile Include="Lexicon.cs" />
     <Compile Include="LexiconDocument.cs" />
     <Compile Include="LexiconDocumentVisitor.cs" />
@@ -102,6 +104,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="QuranStructure.cs" />
+    <Compile Include="XmlStreaming\HadithCollectionXmlWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

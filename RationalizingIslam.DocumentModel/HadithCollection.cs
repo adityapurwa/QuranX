@@ -15,12 +15,12 @@ namespace RationalizingIslam.DocumentModel
 		public HadithCollection(
 			string code, 
 			string name, 
-			string copyRight,
+			string copyright,
 			string[] referencePartNames)
 		{
 			this.Code = code;
 			this.Name = name;
-			this.Copyright = copyRight;
+			this.Copyright = copyright;
 			this.ReferencePartNames = referencePartNames;
 			this._Hadiths = new Dictionary<MultiPartReference, Hadith>();
 			this.HadithsByVerse = new Dictionary<VerseReference, List<Hadith>>();
