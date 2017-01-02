@@ -13,7 +13,7 @@ namespace RationalizingIslam.DocumentModel
         public string Code { get; private set; }
         public string Name { get; private set; }
         public string ValuePrefix { get; private set; }
-        public ReadOnlyCollection<string> PartNames { get; private set; }
+        public string[] PartNames { get; private set; }
 
         public HadithReferenceDefinition(bool isPrimary, string code, string name, IEnumerable<string> partNames, string valuePrefix = null)
         {
@@ -29,15 +29,15 @@ namespace RationalizingIslam.DocumentModel
             this.IsPrimary = isPrimary;
             this.Code = code;
             this.Name = name;
-            this.PartNames = new ReadOnlyCollection<string>(partNames.ToArray());
+            this.PartNames = partNames.ToArray();
             this.ValuePrefix = valuePrefix;
         }
 
         public static bool operator==(HadithReferenceDefinition first, HadithReferenceDefinition second)
         {
-            if (first == null && second == null)
+            if (Object.ReferenceEquals(first, null) && Object.ReferenceEquals(second, null))
                 return true;
-            if (first == null || second == null)
+            if (Object.ReferenceEquals(first, null) || Object.ReferenceEquals(second, null))
                 return false;
             return first.Equals(second);
         }

@@ -5,16 +5,15 @@ using System.Linq;
 
 namespace RationalizingIslam.DocumentModel
 {
-    public struct HadithReference :
+    public class HadithReference :
         IComparable,
         IComparable<HadithReference>,
         IEnumerable<string>
     {
         public readonly string Code;
-        public readonly ReadOnlyCollection<string> Values;
+        public readonly string[] Values;
 
         public HadithReference(string code, IEnumerable<string> values)
-            : this()
         {
             if (string.IsNullOrWhiteSpace(code))
                 throw new ArgumentNullException(nameof(code));
@@ -22,12 +21,12 @@ namespace RationalizingIslam.DocumentModel
                 throw new ArgumentException(nameof(values), "Must be an array of non-empty values");
 
             this.Code = code;
-            Values = values.ToList().AsReadOnly();
+            Values = values.ToArray();
         }
 
         public int Length
         {
-            get { return Values.Count; }
+            get { return Values.Length; }
         }
 
         public string this[int index]
@@ -58,10 +57,9 @@ namespace RationalizingIslam.DocumentModel
 
         public override string ToString()
         {
-            return Code + " : " 
-                + string.Join(
+            return string.Join(
                     separator: ".",
-                    values: Values
+                    values: (IEnumerable<string>)Values
                 );
         }
 
@@ -105,7 +103,8 @@ namespace RationalizingIslam.DocumentModel
 
         IEnumerator<string> IEnumerable<string>.GetEnumerator()
         {
-            return Values.GetEnumerator();
+            foreach (string value in Values)
+                yield return value;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -115,16 +114,16 @@ namespace RationalizingIslam.DocumentModel
 
         public static bool operator ==(HadithReference first, HadithReference second)
         {
-            if (first == null && second == null)
+            if (Object.ReferenceEquals(first, null) && Object.ReferenceEquals(second, null))
                 return true;
-            if (first == null || second == null)
+            if (Object.ReferenceEquals(first, null) || Object.ReferenceEquals(second, null))
                 return false;
             return first.CompareTo(second) == 0;
         }
 
         public static bool operator !=(HadithReference first, HadithReference second)
         {
-            return first.CompareTo(second) != 0;
+            return !(first == second);
         }
 
         public override bool Equals(object obj)
@@ -136,7 +135,7 @@ namespace RationalizingIslam.DocumentModel
 
         public override int GetHashCode()
         {
-            return ToString().GetHashCode();
+            return (Code + ToString()).GetHashCode();
         }
 
 

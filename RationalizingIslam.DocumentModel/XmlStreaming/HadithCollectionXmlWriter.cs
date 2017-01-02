@@ -34,18 +34,8 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
                 Xml.WriteElementString("code", Collection.Code);
                 Xml.WriteElementString("name", Collection.Name);
                 Xml.WriteElementString("copyright", Collection.Copyright);
-                WritePrimaryReferenceDefinition();
                 WriteHadithReferenceDefinitions();
                 WriteHadiths();
-            }
-        }
-
-        void WritePrimaryReferenceDefinition()
-        {
-            using (Xml.WriteElement("referenceDefinition"))
-            {
-                foreach (string partName in Collection.ReferencePartNames)
-                    Xml.WriteElementString("definition", partName);
             }
         }
 
@@ -77,7 +67,7 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
         void WriteHadiths()
         {
             using (Xml.WriteElement("hadiths"))
-                foreach (Hadith hadith in Collection.Hadiths.OrderBy(x => x.Reference))
+                foreach (Hadith hadith in Collection.Hadiths.OrderBy(x => x.PrimaryReference))
                     WriteHadith(hadith);
         }
 
@@ -86,8 +76,6 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
             using (Xml.WriteElement("hadith"))
             {
                 WriteHadithReferences(hadith);
-                WriteHadithReference(hadith.Reference);
-                WriteHadithSecondaryReferences(hadith);
                 WriteHadithText(hadith);
                 WriteHadithVerseReferences(hadith);
             }
@@ -117,22 +105,6 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
             {
                 foreach (string partValue in reference)
                     Xml.WriteElementString("part", partValue);
-            }
-        }
-
-        void WriteHadithSecondaryReferences(Hadith hadith)
-        {
-            using (Xml.WriteElement("secondaryReferences"))
-                foreach (var secondaryReference in hadith.OtherReferences.OrderBy(x => x.Key))
-                    WriteHadithSecondaryReference(secondaryReference);
-        }
-
-        void WriteHadithSecondaryReference(KeyValuePair<string, string> secondaryReference)
-        {
-            using (Xml.WriteElement("secondaryReference"))
-            {
-                Xml.WriteElementString("type", secondaryReference.Key);
-                Xml.WriteElementString("value", secondaryReference.Value);
             }
         }
 

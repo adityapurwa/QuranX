@@ -22,9 +22,9 @@ namespace RationalizingIslam.DocumentModel
 				return false;
 
 			var other = (CollectionAndHadith)obj;
-			return
-				this.Collection.Code == other.Collection.Code
-				&& this.Hadith.Reference == other.Hadith.Reference;
+            return
+                this.Collection.Code == other.Collection.Code
+                && this.Hadith.PrimaryReference == other.Hadith.PrimaryReference;
 		}
 
 		public static bool operator ==(CollectionAndHadith left, CollectionAndHadith right)
@@ -42,14 +42,14 @@ namespace RationalizingIslam.DocumentModel
 			int stringCompare = string.Compare(this.Collection.Code, other.Collection.Code);
 			if (stringCompare != 0)
 				return stringCompare;
-			return Hadith.Reference.CompareTo(other.Hadith.Reference);
+			return this.Hadith.PrimaryReference.CompareTo(other.Hadith.PrimaryReference);
 		}
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
-				return Collection.Code.GetHashCode() + Hadith.Reference.GetHashCode();
+                return Collection.Code.GetHashCode() + Hadith.PrimaryReference.GetHashCode();
 			}
 		}
 

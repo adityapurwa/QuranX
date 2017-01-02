@@ -153,7 +153,7 @@ namespace QuranX.Controllers
 							var hadithCollection = SharedData.Document.HadithDocument[hadithCollectionCode];
 							int referencePartIndex = 0;
 							url = "";
-							foreach (string referencePartName in hadithCollection.ReferencePartNames)
+							foreach (string referencePartName in hadithCollection.PrimaryReferenceDefinition.PartNames)
 								url += string.Format("{0}-{1}/", referencePartName, hadithReferenceParts[referencePartIndex++]);
 							id = url
 								.Replace("/", " ")

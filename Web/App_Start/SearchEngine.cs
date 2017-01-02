@@ -201,23 +201,23 @@ namespace QuranX
 					int referencePartIndex = 0;
 					var referenceBuilder = new StringBuilder();
 					referenceBuilder.AppendLine();
-					foreach (string referencePartName in collection.ReferencePartNames)
+					foreach (string referencePartName in collection.PrimaryReferenceDefinition.PartNames)
 					{
 						referenceBuilder.AppendLine(
-							referencePartName + "=" + hadith.Reference[referencePartIndex]
+							referencePartName + "=" + hadith.PrimaryReference[referencePartIndex]
 						);
 						referencePartIndex++;
 					}
 
 					var secondaryReferencesBuilder = new StringBuilder();
 					secondaryReferencesBuilder.AppendLine();
-					foreach (var secondaryReference in hadith.OtherReferences)
-						secondaryReferencesBuilder.AppendLine(secondaryReference.Key + "=" + secondaryReference.Value);
+					foreach (var secondaryReference in hadith.References.Where(x => x != hadith.PrimaryReference))
+						secondaryReferencesBuilder.AppendLine(secondaryReference + ""); //TODO: Check
 					body += secondaryReferencesBuilder.ToString();
 
 					var doc = new Document();
 					doc.Add(CreateField(name: "ID", value : string.Format(
-						"{0}/{1}", collection.Code, hadith.Reference
+						"{0}/{1}", collection.Code, hadith.PrimaryReference
 						))
 					);
 					doc.Add(CreateField(name: "Type", value: "Hadith"));

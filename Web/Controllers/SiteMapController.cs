@@ -38,12 +38,12 @@ namespace QuranX.Controllers
 			pageIndex--;
 			var urls = new List<string>();
 			var hadithCollection = SharedData.Document.HadithDocument[collectionCode];
-			var hadiths = hadithCollection.Hadiths.OrderBy(x => x.Reference).Skip(pageIndex * PageSize).Take(PageSize);
+			var hadiths = hadithCollection.Hadiths.OrderBy(x => x.PrimaryReference).Skip(pageIndex * PageSize).Take(PageSize);
 			foreach (var hadith in hadiths)
 			{
 				string url = Domain + "/hadith/" + collectionCode + "/";
-				for (int index = 0; index < hadithCollection.ReferencePartNames.Count; index++)
-					url += hadithCollection.ReferencePartNames[index] + "-" + hadith.Reference[index] + "/";
+				for (int index = 0; index < hadithCollection.PrimaryReferenceDefinition.PartNames.Length; index++)
+					url += hadithCollection.PrimaryReferenceDefinition.PartNames[index] + "-" + hadith.PrimaryReference[index] + "/";
 				urls.Add(url);
 			}
 			return new SiteMapResult(urls, LastMod);

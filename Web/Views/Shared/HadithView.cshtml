@@ -5,15 +5,15 @@
         @{
             string hadithUrl = Url.Action("Collection", "Hadith", new { CollectionCode = Model.Collection.Code, Path = "" });
             int keyPartIndex = 0;
-            foreach (var referencePart in Model.Hadith.Reference)
+            foreach (var referencePart in Model.Hadith.PrimaryReference)
             {
-                hadithUrl += Model.Collection.ReferencePartNames[keyPartIndex] + "-" + referencePart + "/";
+                hadithUrl += Model.Collection.PrimaryReferenceDefinition.PartNames[keyPartIndex] + "-" + referencePart + "/";
                 keyPartIndex++;
             }
         }
         <dt>
             <a href="@hadithUrl" itemprop="name">
-                @Model.Collection.Name - @Model.Hadith.Reference.GetCaption(Model.Collection.ReferencePartNames)
+                @Model.Collection.Name - @Model.Hadith.PrimaryReference.GetCaption(Model.Collection.PrimaryReferenceDefinition.PartNames)
             </a>
         </dt>
         <dd itemprop="articleBody">
@@ -26,14 +26,15 @@
             <figure class="hadithReferences">
                 <figcaption>Other references</figcaption>
                 <table itemprop="articleSection">
-                    @foreach (var otherReference in Model.Hadith.OtherReferences)
+                    @foreach (var otherReference in Model.Hadith.References)
                     {
+                        var referenceDefinition = Model.Collection.GetReferenceDefinition(otherReference.Code);
                         <tr>
                             <td>
-                                @otherReference.Key
+                                @referenceDefinition.Name
                             </td>
                             <td>
-                                @otherReference.Value
+                                @otherReference.GetCaption(referenceDefinition.PartNames)
                             </td>
                         </tr>
                     }
@@ -49,7 +50,7 @@
                 </ul>
             </figure>
         </dd>
-		@if (Model.Hadith.ArabicText != null && Model.Hadith.ArabicText.Count > 0)
+		@if (Model.Hadith.ArabicText != null && Model.Hadith.ArabicText.Length > 0)
 		{
 			<dd>
 				@foreach (var line in Model.Hadith.ArabicText)

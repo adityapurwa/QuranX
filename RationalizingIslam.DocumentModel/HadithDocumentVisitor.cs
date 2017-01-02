@@ -20,7 +20,7 @@ namespace RationalizingIslam.DocumentModel
 		protected virtual void VisitCollection(HadithCollection collection)
 		{
 			var groupedHadiths = collection.Hadiths
-				.GroupBy(x => x.Reference[0]);
+				.GroupBy(x => x.PrimaryReference[0]);
 			VisitHadithGroups(groupedHadiths);
 		}
 

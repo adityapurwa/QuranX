@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -6,27 +7,47 @@ namespace RationalizingIslam.DocumentModel
 {
 	public class Hadith
 	{
-		public readonly MultiPartReference Reference;
-		public readonly ReadOnlyCollection<KeyValuePair<string, string>> OtherReferences;
-		public readonly ReadOnlyCollection<string> ArabicText;
-		public readonly ReadOnlyCollection<string> EnglishText;
+        public readonly HadithCollection Collection;
+        public readonly HadithReference PrimaryReference;
+        public readonly HadithReference[] References;
+        public readonly string[] ArabicText;
+		public readonly string[] EnglishText;
 		public readonly VerseRangeReference[] VerseReferences;
-        public readonly ReadOnlyCollection<HadithReference> References;
+        Dictionary<string, HadithReference> ReferencesByCode;
 
 		public Hadith(
-			MultiPartReference reference,
-			IEnumerable<KeyValuePair<string, string>> otherReferences,
-			IEnumerable<string> arabicText,
+            HadithCollection collection,
+            IEnumerable<HadithReference> references,
+            IEnumerable<string> arabicText,
 			IEnumerable<string> englishText,
-			IEnumerable<VerseRangeReference> verseReferences,
-            IEnumerable<HadithReference> references)
+			IEnumerable<VerseRangeReference> verseReferences)
 		{
-			this.Reference = reference;
-            this.OtherReferences = new ReadOnlyCollection<KeyValuePair<string, string>>(otherReferences.ToArray());
-            this.ArabicText = new ReadOnlyCollection<string>(arabicText.ToArray());
-            this.EnglishText = new ReadOnlyCollection<string>(englishText.ToArray());
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (references == null || !references.Any())
+                throw new ArgumentNullException(nameof(references));
+            if (arabicText == null)
+                throw new ArgumentNullException(nameof(arabicText));
+            if (englishText == null)
+                throw new ArgumentNullException(nameof(englishText));
+            if (verseReferences == null)
+                throw new ArgumentNullException(nameof(verseReferences));
+
+            this.Collection = collection;
+            this.References = references.ToArray();
+            this.ArabicText = arabicText.ToArray();
+            this.EnglishText = englishText.ToArray();
 			this.VerseReferences = verseReferences.Distinct().OrderBy(x => x).ToArray();
-            this.References = new ReadOnlyCollection<HadithReference>(references.OrderBy(x => x).ToArray());
+            ReferencesByCode = references.ToDictionary(x => x.Code, StringComparer.InvariantCultureIgnoreCase);
+            PrimaryReference = GetReference(collection.PrimaryReferenceDefinition.Code);
 		}
+
+        public HadithReference GetReference(string code)
+        {
+            HadithReference result;
+            if (ReferencesByCode.TryGetValue(code, out result))
+                return result;
+            return null;
+        }
 	}
 }

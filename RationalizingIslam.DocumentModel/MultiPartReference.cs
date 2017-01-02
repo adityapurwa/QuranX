@@ -11,19 +11,19 @@ namespace RationalizingIslam.DocumentModel
 		IComparable<MultiPartReference>,
 		IEnumerable<string>
 	{
-		public readonly ReadOnlyCollection<string> Parts;
+		public readonly string[] Parts;
 		public readonly bool IsValid;
 
 		public MultiPartReference(IEnumerable<string> parts)
 			: this()
 		{
-			Parts = parts.ToList().AsReadOnly();
+			Parts = parts.ToArray();
 			IsValid = parts.Any();
 		}
 
 		public int Length
 		{
-			get { return Parts.Count; }
+			get { return Parts.Length; }
 		}
 
 		public string this[int index]
@@ -61,7 +61,7 @@ namespace RationalizingIslam.DocumentModel
 		{
 			return string.Join(
 					separator: ".",
-					values: Parts
+					values: (IEnumerable<string>)Parts
 				);
 		}
 
@@ -101,7 +101,8 @@ namespace RationalizingIslam.DocumentModel
 
 		IEnumerator<string> IEnumerable<string>.GetEnumerator()
 		{
-			return Parts.GetEnumerator();
+            foreach (string part in Parts)
+                yield return part;
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -111,16 +112,16 @@ namespace RationalizingIslam.DocumentModel
 
 		public static bool operator ==(MultiPartReference first, MultiPartReference second)
 		{
-            if (first == null && second == null)
+            if (Object.ReferenceEquals(first, null) && Object.ReferenceEquals(second, null))
                 return true;
-            if (first == null || second == null)
+            if (Object.ReferenceEquals(first, null) || Object.ReferenceEquals(second, null))
                 return false;
             return first.CompareTo(second) == 0;
 		}
 
 		public static bool operator !=(MultiPartReference first, MultiPartReference second)
 		{
-			return first.CompareTo(second) != 0;
+            return !(first == second);
 		}
 
 		public override bool Equals(object obj)

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web;
 
 namespace QuranX.Models
 {
@@ -12,15 +10,26 @@ namespace QuranX.Models
 		public HadithCollection Collection { get; private set; }
 		public List<KeyValuePair<string, string>> SelectedKeyParts { get; private set; }
 		public string NextKeyPartName { get; private set; }
-		public IEnumerable<Hadith> HadithsInCurrentSelection { get; private set; }
+		public IEnumerable<KeyValuePair<HadithReference,Hadith>> HadithsInCurrentSelection { get; private set; }
 		public IEnumerable<string> NextKeyPartSelection { get; private set; }
+        public HadithReferenceDefinition ReferenceDefinition { get; private set; }
 
 		public Hadith_DrillDown(
 			string collectionCode,
+            string indexCode,
 			string path)
 		{
 			path = path ?? "";
 			this.Collection = SharedData.Document.HadithDocument[collectionCode];
+            if (!string.IsNullOrWhiteSpace(indexCode))
+            {
+                ReferenceDefinition = Collection.GetReferenceDefinition(indexCode);
+                if (ReferenceDefinition == null)
+                    throw new KeyNotFoundException(nameof(indexCode));
+            }
+            else
+                ReferenceDefinition = Collection.PrimaryReferenceDefinition;
+
 			this.NextKeyPartSelection = new List<string>();
 			this.SelectedKeyParts =
 				path.Split('/')
@@ -36,21 +45,26 @@ namespace QuranX.Models
 				.ToList();
 
 			int referencePartIndex = 0;
-			HadithsInCurrentSelection = new List<Hadith>(Collection.Hadiths);
+            var hadithsInCurrentSelection =
+                Collection
+                .Hadiths
+                .Select(x => new KeyValuePair<HadithReference, Hadith>(x.GetReference(ReferenceDefinition.Code), x))
+                .Where(x => x.Key != null);
 			foreach (var keyPartAndValue in SelectedKeyParts)
 			{
-				if (string.Compare(keyPartAndValue.Key, Collection.ReferencePartNames[referencePartIndex], true) != 0)
-					throw new ArgumentException(string.Format("Expected key part {0} but found {1}", Collection.ReferencePartNames[referencePartIndex], keyPartAndValue.Key));
+				if (string.Compare(keyPartAndValue.Key, ReferenceDefinition.PartNames[referencePartIndex], true) != 0)
+					throw new ArgumentException(string.Format("Expected key part {0} but found {1}", ReferenceDefinition.PartNames[referencePartIndex], keyPartAndValue.Key));
 
-				HadithsInCurrentSelection = HadithsInCurrentSelection
-					.Where(x => string.Compare(x.Reference[referencePartIndex], keyPartAndValue.Value, true) == 0)
+				hadithsInCurrentSelection = hadithsInCurrentSelection
+                    .Where(x => string.Compare(x.Key[referencePartIndex], keyPartAndValue.Value, true) == 0)
 					.ToList();
 				referencePartIndex++;
 			}
-			if (referencePartIndex < Collection.ReferencePartNames.Count)
+            HadithsInCurrentSelection = hadithsInCurrentSelection;
+			if (referencePartIndex < ReferenceDefinition.PartNames.Length)
 			{
-				NextKeyPartName = Collection.ReferencePartNames[referencePartIndex];
-				NextKeyPartSelection = HadithsInCurrentSelection.Select(x => x.Reference[referencePartIndex]).Distinct();
+				NextKeyPartName = ReferenceDefinition.PartNames[referencePartIndex];
+				NextKeyPartSelection = hadithsInCurrentSelection.Select(x => x.Key[referencePartIndex]).Distinct();
 			}
 		}
 

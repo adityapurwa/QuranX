@@ -5,110 +5,107 @@ using System.Xml.Linq;
 
 namespace RationalizingIslam.DocumentModel.Factories
 {
-	public class HadithCollectionFactory
-	{
-		HadithCollection Collection;
-		Dictionary<MultiPartReference, HashSet<VerseRangeReference>> VersesByHadith;
+    public class HadithCollectionFactory
+    {
+        HadithCollection Collection;
+        Dictionary<HadithReference, HashSet<VerseRangeReference>> VersesByHadith;
 
-		public HadithCollection Create(string hadithFilePath, string additionalHadithXRefsDirectory)
-		{
-			var doc = XDocument.Load(File.OpenText(hadithFilePath));
-			var collectionNode = doc.Document.Root;
+        public HadithCollection Create(string hadithFilePath, string additionalHadithXRefsDirectory)
+        {
+            var doc = XDocument.Load(File.OpenText(hadithFilePath));
+            var collectionNode = doc.Document.Root;
 
-			string code = collectionNode.Element("code").Value;
-			string name = collectionNode.Element("name").Value;
-			string copyright = collectionNode.Element("copyright").Value;
-			string[] referencePartNames = ReadReferenceDefinition(collectionNode);
+            string code = collectionNode.Element("code").Value;
+            string name = collectionNode.Element("name").Value;
+            string copyright = collectionNode.Element("copyright").Value;
             HadithReferenceDefinition[] referenceDefinitions = ReadReferenceDefinitions(collectionNode);
 
-			CreateAdditionalHadithXRefs(
-					tafsirCode: code, 
-					xrefsDirectory: additionalHadithXRefsDirectory
-				);
-
-			Collection = new HadithCollection(
-					code: code,
-					name: name,
-					copyright: copyright,
-					referencePartNames: referencePartNames,
+            Collection = new HadithCollection(
+                    code: code,
+                    name: name,
+                    copyright: copyright,
                     referenceDefinitions: referenceDefinitions
-				);
-			ReadHadiths(collectionNode);
-			return Collection;
-		}
+                );
 
-		void CreateAdditionalHadithXRefs(string tafsirCode, string xrefsDirectory)
-		{
-			VersesByHadith = new Dictionary<MultiPartReference, HashSet<VerseRangeReference>>();
-			string xrefsFilePath = Path.Combine(xrefsDirectory, tafsirCode + ".txt");
-			if (!File.Exists(xrefsFilePath))
-				return;
+            CreateAdditionalHadithXRefs(
+                    tafsirCode: code,
+                    xrefsDirectory: additionalHadithXRefsDirectory
+                );
 
-			string[] lines = File.ReadAllLines(xrefsFilePath);
-			foreach (string line in lines)
-			{
-				string[] lineValues = line.Split('\t');
-				if (string.IsNullOrEmpty(lineValues[0]))
-					continue;
-				var hadithReference = new MultiPartReference(lineValues[0].Split('.'));
-				foreach (string verseRangeReferenceText in lineValues.Skip(1))
-				{
-					if (string.IsNullOrEmpty(verseRangeReferenceText))
-						continue;
-					AddVerseReference(
-							hadithReference: hadithReference,
-							verseRangeReferenceText: verseRangeReferenceText
-						);
-				}
-			}
-		}
+            ReadHadiths(collectionNode);
+            return Collection;
+        }
 
-		void AddVerseReference(MultiPartReference hadithReference, string verseRangeReferenceText)
-		{
-			var verseRangeReference = VerseRangeReference.Parse(verseRangeReferenceText);
-			HashSet<VerseRangeReference> verseRangeReferences;
-			if (!VersesByHadith.TryGetValue(hadithReference, out verseRangeReferences))
-			{
-				verseRangeReferences = new HashSet<VerseRangeReference>();
-				VersesByHadith[hadithReference] = verseRangeReferences;
-			}
-			verseRangeReferences.Add(verseRangeReference);
-		}
+        void CreateAdditionalHadithXRefs(string tafsirCode, string xrefsDirectory)
+        {
+            VersesByHadith = new Dictionary<HadithReference, HashSet<VerseRangeReference>>();
+            string xrefsFilePath = Path.Combine(xrefsDirectory, tafsirCode + ".txt");
+            if (!File.Exists(xrefsFilePath))
+                return;
 
-		void ReadHadiths(XElement collectionNode)
-		{
+            string[] lines = File.ReadAllLines(xrefsFilePath);
+            foreach (string line in lines)
+            {
+                string[] lineValues = line.Split('\t');
+                if (string.IsNullOrEmpty(lineValues[0]))
+                    continue;
+                var hadithReference = new HadithReference(Collection.PrimaryReferenceDefinition.Code, lineValues[0].Split('.'));
+                foreach (string verseRangeReferenceText in lineValues.Skip(1))
+                {
+                    if (string.IsNullOrWhiteSpace(verseRangeReferenceText))
+                        continue;
+                    AddVerseReference(
+                            hadithReference: hadithReference,
+                            verseRangeReferenceText: verseRangeReferenceText
+                        );
+                }
+            }
+        }
 
-			foreach (XElement hadithNode in collectionNode.Descendants("hadith"))
-			{
-				ReadHadith(hadithNode);
-			}
-		}
+        void AddVerseReference(HadithReference hadithReference, string verseRangeReferenceText)
+        {
+            var verseRangeReference = VerseRangeReference.Parse(verseRangeReferenceText);
+            HashSet<VerseRangeReference> verseRangeReferences;
+            if (!VersesByHadith.TryGetValue(hadithReference, out verseRangeReferences))
+            {
+                verseRangeReferences = new HashSet<VerseRangeReference>();
+                VersesByHadith[hadithReference] = verseRangeReferences;
+            }
+            verseRangeReferences.Add(verseRangeReference);
+        }
 
-		void ReadHadith(XElement hadithNode)
-		{
-			var reference = MultiPartReference.ParseXml(hadithNode.Element("reference"));
-			var secondaryReferences = ReadSecondaryReferences(hadithNode.Element("secondaryReferences"));
+        void ReadHadiths(XElement collectionNode)
+        {
+
+            foreach (XElement hadithNode in collectionNode.Descendants("hadith"))
+            {
+                ReadHadith(hadithNode);
+            }
+        }
+
+        void ReadHadith(XElement hadithNode)
+        {
             var references = ReadReferences(hadithNode.Element("references"));
-			var verseReferences = ReadVerseReferences(hadithNode.Element("verseReferences"));
-			var englishTextNode = hadithNode.Element("english");
-			var englishText = englishTextNode.Elements("text").Select(x => x.Value);
-			var arabicTextNode = hadithNode.Element("arabic");
-			var arabicText = arabicTextNode.Elements("text").Select(x => x.Value);
+            var verseReferences = ReadVerseReferences(hadithNode.Element("verseReferences"));
+            var englishTextNode = hadithNode.Element("english");
+            var englishText = englishTextNode.Elements("text").Select(x => x.Value);
+            var arabicTextNode = hadithNode.Element("arabic");
+            var arabicText = arabicTextNode.Elements("text").Select(x => x.Value);
+            string primaryReferenceCode = Collection.PrimaryReferenceDefinition.Code;
+            var primaryReference = references.Single(x => string.Compare(primaryReferenceCode, x.Code, true) == 0);
 
-			HashSet<VerseRangeReference> additionalVerseReferences;
-			if (VersesByHadith.TryGetValue(reference, out additionalVerseReferences))
-				verseReferences = verseReferences.Concat(additionalVerseReferences);
+            HashSet<VerseRangeReference> additionalVerseReferences;
+            if (VersesByHadith.TryGetValue(primaryReference, out additionalVerseReferences))
+                verseReferences = verseReferences.Concat(additionalVerseReferences);
 
-			var hadith = new Hadith(
-					reference: reference,
-					otherReferences: secondaryReferences,
-					arabicText: arabicText,
-					englishText: englishText,
-					verseReferences: verseReferences,
-                    references: new HadithReference[0] //TODO: Read from XML
-				);
-			Collection.AddHadith(hadith);
-		}
+            var hadith = new Hadith(
+                collection: Collection,
+                references: references,
+                arabicText: arabicText,
+                englishText: englishText,
+                verseReferences: verseReferences);
+            Collection.AddHadith(hadith);
+        }
 
         IEnumerable<HadithReference> ReadReferences(XElement referencesNode)
         {
@@ -129,30 +126,30 @@ namespace RationalizingIslam.DocumentModel.Factories
             return result;
         }
 
-		IEnumerable<KeyValuePair<string, string>> ReadSecondaryReferences(XElement parentNode)
-		{
-			return parentNode.Elements("secondaryReference")
-				.Select(x => new KeyValuePair<string, string>(
-							key: x.Element("type").Value,
-							value:  x.Element("value").Value
-						)
-					);
-		}
+        IEnumerable<KeyValuePair<string, string>> ReadSecondaryReferences(XElement parentNode)
+        {
+            return parentNode.Elements("secondaryReference")
+                .Select(x => new KeyValuePair<string, string>(
+                            key: x.Element("type").Value,
+                            value: x.Element("value").Value
+                        )
+                    );
+        }
 
-		IEnumerable<VerseRangeReference> ReadVerseReferences(XElement parentNode)
-		{
-			return parentNode.Elements("reference")
-				.Select(x => VerseRangeReference.ParseXml(x));
-		}
+        IEnumerable<VerseRangeReference> ReadVerseReferences(XElement parentNode)
+        {
+            return parentNode.Elements("reference")
+                .Select(x => VerseRangeReference.ParseXml(x));
+        }
 
-		string[] ReadReferenceDefinition(XElement rootNode)
-		{
-			return rootNode
-				.Element("referenceDefinition")
-				.Elements("definition")
-				.Select(x => x.Value)
-				.ToArray();
-		}
+        string[] ReadReferenceDefinition(XElement rootNode)
+        {
+            return rootNode
+                .Element("referenceDefinition")
+                .Elements("definition")
+                .Select(x => x.Value)
+                .ToArray();
+        }
 
         HadithReferenceDefinition[] ReadReferenceDefinitions(XElement rootNode)
         {
@@ -180,5 +177,5 @@ namespace RationalizingIslam.DocumentModel.Factories
             return result.ToArray();
         }
 
-	}
+    }
 }

@@ -182,13 +182,25 @@ namespace QuranX
 				}
 			);
 
-			routes.MapRoute(
+            routes.MapRoute(
+                name: "",
+                url: "Hadith/{CollectionCode}/ByIndex/{IndexCode}/{*Path}",
+                defaults: new
+                {
+                    Controller = "Hadith",
+                    Action = "Collection",
+                    Path = UrlParameter.Optional
+                }
+            );
+
+            routes.MapRoute(
 				name: "",
 				url: "Hadith/{CollectionCode}/{*Path}",
 				defaults: new
 				{
 					Controller = "Hadith",
 					Action = "Collection",
+                    IndexCode = (string)null,
 					Path = UrlParameter.Optional
 				}
 			);

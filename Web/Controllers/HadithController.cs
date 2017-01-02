@@ -16,10 +16,11 @@ namespace QuranX.Controllers
 			return View(model);
 		}
 
-		public ActionResult Collection(string collectionCode, string path)
+		public ActionResult Collection(string collectionCode, string indexCode, string path)
 		{
 			var model = new Hadith_DrillDown(
 				collectionCode: collectionCode,
+                indexCode: indexCode,
 				path: path
 			);
 			return View(model);
