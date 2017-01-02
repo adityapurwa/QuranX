@@ -45,26 +45,27 @@ namespace QuranX.Models
 				.ToList();
 
 			int referencePartIndex = 0;
-            var hadithsInCurrentSelection =
+            HadithsInCurrentSelection =
                 Collection
                 .Hadiths
                 .Select(x => new KeyValuePair<HadithReference, Hadith>(x.GetReference(ReferenceDefinition.Code), x))
-                .Where(x => x.Key != null);
+                .Where(x => x.Key != null)
+                .OrderBy(x => x.Key);
 			foreach (var keyPartAndValue in SelectedKeyParts)
 			{
 				if (string.Compare(keyPartAndValue.Key, ReferenceDefinition.PartNames[referencePartIndex], true) != 0)
 					throw new ArgumentException(string.Format("Expected key part {0} but found {1}", ReferenceDefinition.PartNames[referencePartIndex], keyPartAndValue.Key));
 
-				hadithsInCurrentSelection = hadithsInCurrentSelection
+				HadithsInCurrentSelection = 
+                    HadithsInCurrentSelection
                     .Where(x => string.Compare(x.Key[referencePartIndex], keyPartAndValue.Value, true) == 0)
 					.ToList();
 				referencePartIndex++;
 			}
-            HadithsInCurrentSelection = hadithsInCurrentSelection;
 			if (referencePartIndex < ReferenceDefinition.PartNames.Length)
 			{
 				NextKeyPartName = ReferenceDefinition.PartNames[referencePartIndex];
-				NextKeyPartSelection = hadithsInCurrentSelection.Select(x => x.Key[referencePartIndex]).Distinct();
+				NextKeyPartSelection = HadithsInCurrentSelection.Select(x => x.Key[referencePartIndex]).Distinct();
 			}
 		}
 
