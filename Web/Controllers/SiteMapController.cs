@@ -45,7 +45,11 @@ namespace QuranX.Controllers
                 foreach (HadithReference hadithReference in hadith.References)
                 {
                     var referenceDefinition = hadithCollection.GetReferenceDefinition(hadithReference.Code);
-                    string url = Domain + "/hadith/" + collectionCode + "/ByIndex/" + hadithReference.Code + "/";
+                    string url;
+                    if (referenceDefinition.IsPrimary)
+                        url = Domain + "/hadith/" + collectionCode + "/";
+                    else 
+                        url = Domain + "/hadith/" + collectionCode + "/ByIndex/" + hadithReference.Code + "/";
                     for (int index = 0; index < hadithReference.Values.Length; index++)
                         url += referenceDefinition.PartNames[index] + "-" + hadithReference[index] + "/";
                     urls.Add(url);
