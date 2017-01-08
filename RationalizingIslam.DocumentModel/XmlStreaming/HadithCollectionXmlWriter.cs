@@ -93,6 +93,7 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
             using (Xml.WriteElement("reference"))
             {
                 Xml.WriteElementString("code", reference.Code);
+                Xml.WriteElementString("suffix", reference.Suffix);
                 using (Xml.WriteElement("parts"))
                     foreach (string partValue in reference)
                         Xml.WriteElementString("part", partValue);

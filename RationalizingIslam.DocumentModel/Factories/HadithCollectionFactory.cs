@@ -49,7 +49,7 @@ namespace RationalizingIslam.DocumentModel.Factories
                 string[] lineValues = line.Split('\t');
                 if (string.IsNullOrEmpty(lineValues[0]))
                     continue;
-                var hadithReference = new HadithReference(Collection.PrimaryReferenceDefinition.Code, lineValues[0].Split('.'));
+                var hadithReference = new HadithReference(Collection.PrimaryReferenceDefinition.Code, lineValues[0].Split('.'), null);
                 foreach (string verseRangeReferenceText in lineValues.Skip(1))
                 {
                     if (string.IsNullOrWhiteSpace(verseRangeReferenceText))
@@ -115,11 +115,12 @@ namespace RationalizingIslam.DocumentModel.Factories
                 foreach (XElement referenceNode in referencesNode.Elements("reference"))
                 {
                     string code = referenceNode.Element("code").Value;
+                    string suffix = referenceNode.Element("suffix")?.Value;
                     var parts = new List<string>();
                     XElement partsNode = referenceNode.Element("parts");
                     foreach (XElement partNode in partsNode.Elements("part"))
                         parts.Add(partNode.Value);
-                    var reference = new HadithReference(code, parts);
+                    var reference = new HadithReference(code, parts, suffix);
                     result.Add(reference);
                 }
             }

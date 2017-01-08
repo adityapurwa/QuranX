@@ -8,7 +8,7 @@ namespace RationalizingIslam.DocumentModel
 	public class HadithCollection
 	{
 		readonly Dictionary<VerseReference, List<Hadith>> HadithsByVerse;
-		readonly Dictionary<HadithReference, Hadith> _Hadiths;
+		readonly List<Hadith> _Hadiths;
 		public readonly string Code;
 		public readonly string Name;
 		public readonly string Copyright;
@@ -27,7 +27,7 @@ namespace RationalizingIslam.DocumentModel
 			this.Name = name;
 			this.Copyright = copyright;
             this.ReferenceDefinitions = referenceDefinitions.ToArray();
-			_Hadiths = new Dictionary<HadithReference, Hadith>();
+            _Hadiths = new List<Hadith>();
 			HadithsByVerse = new Dictionary<VerseReference, List<Hadith>>();
             ReferenceDefinitionsByCode = referenceDefinitions.ToDictionary(x => x.Code, StringComparer.InvariantCultureIgnoreCase);
 		}
@@ -70,18 +70,13 @@ namespace RationalizingIslam.DocumentModel
 		{
 			get
 			{
-                return _Hadiths.Values;
+                return _Hadiths;
 			}
 		}
 
 		public void AddHadith(Hadith hadith)
 		{
-			if (_Hadiths.ContainsKey(hadith.PrimaryReference))
-			{
-				Console.WriteLine(Code +" Duplicate hadith reference: " + hadith.PrimaryReference);
-				return;
-			}
-			_Hadiths.Add(hadith.PrimaryReference, hadith);
+			_Hadiths.Add(hadith);
 			AddHadithToIndividualVerses(hadith);
 		}
 

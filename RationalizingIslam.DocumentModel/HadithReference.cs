@@ -12,8 +12,9 @@ namespace RationalizingIslam.DocumentModel
     {
         public readonly string Code;
         public readonly string[] Values;
+        public readonly string Suffix;
 
-        public HadithReference(string code, IEnumerable<string> values)
+        public HadithReference(string code, IEnumerable<string> values, string suffix)
         {
             if (string.IsNullOrWhiteSpace(code))
                 throw new ArgumentNullException(nameof(code));
@@ -21,7 +22,8 @@ namespace RationalizingIslam.DocumentModel
                 throw new ArgumentException(nameof(values), "Must be an array of non-empty values");
 
             this.Code = code;
-            Values = values.ToArray();
+            this.Values = values.ToArray();
+            this.Suffix = suffix;
         }
 
         public int Length
@@ -47,7 +49,7 @@ namespace RationalizingIslam.DocumentModel
                         Values[index]
                     );
             }
-            return string.Join(", ", captionParts);
+            return string.Join(", ", captionParts) + Suffix;
         }
 
         public int CompareTo(HadithReference other)
@@ -60,7 +62,7 @@ namespace RationalizingIslam.DocumentModel
             return string.Join(
                     separator: ".",
                     values: (IEnumerable<string>)Values
-                );
+                ) + Suffix;
         }
 
         int IComparable.CompareTo(object obj)
@@ -98,7 +100,7 @@ namespace RationalizingIslam.DocumentModel
                 return -1;
             if (this.Length > other.Length)
                 return 1;
-            return 0;
+            return string.Compare(this.Suffix, other.Suffix, true);
         }
 
         IEnumerator<string> IEnumerable<string>.GetEnumerator()

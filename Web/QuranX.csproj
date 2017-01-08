@@ -226,6 +226,7 @@
     <Content Include="Content\Images\NavigateAll.png" />
     <Content Include="Content\Images\NavigateNext.png" />
     <Content Include="Content\Images\NavigatePrevious.png" />
+    <Content Include="Content\Images\patreon.png" />
     <Content Include="Content\Images\QuranX.png" />
     <Content Include="Content\Images\QuranXSocialIcon.png" />
     <Content Include="Content\Images\sponsor.png" />
