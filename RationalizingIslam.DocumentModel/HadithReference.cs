@@ -10,9 +10,9 @@ namespace RationalizingIslam.DocumentModel
         IComparable<HadithReference>,
         IEnumerable<string>
     {
-        public readonly string Code;
-        public readonly string[] Values;
-        public readonly string Suffix;
+        public string Code { get; private set; }
+        public string[] Values { get; private set; }
+        public string Suffix { get; private set; }
 
         public HadithReference(string code, IEnumerable<string> values, string suffix)
         {
@@ -100,7 +100,7 @@ namespace RationalizingIslam.DocumentModel
                 return -1;
             if (this.Length > other.Length)
                 return 1;
-            return string.Compare(this.Suffix, other.Suffix, true);
+            return string.Compare(this.Suffix ?? "", other.Suffix ?? "", true);
         }
 
         IEnumerator<string> IEnumerable<string>.GetEnumerator()
@@ -137,9 +137,37 @@ namespace RationalizingIslam.DocumentModel
 
         public override int GetHashCode()
         {
-            return (Code + ToString()).GetHashCode();
+            string fullKey = (Code + ToString()).ToLower();
+            int result = fullKey.GetHashCode();
+            return result;
         }
 
+        public static HadithReference ParseDottedReference(string code, string hadithNumber)
+        {
+            string[] values = hadithNumber.Split('.');
+            string lastValue = values[values.Length - 1];
+            string[] lastValueAndSuffix = lastValue.Split('-');
+            string suffix;
+            if (lastValueAndSuffix.Length == 1)
+                suffix = null;
+            else
+            {
+                suffix = lastValueAndSuffix[1];
+                values[values.Length - 1] = lastValueAndSuffix[0];
+            }
+            var result = new HadithReference(code, values, suffix);
+            return result;
+        }
 
+        public void Assign(HadithReference otherReference)
+        {
+            if (otherReference.Code != Code)
+                throw new ArgumentException("Cannot assign a HadithReference from a different collection");
+            if (otherReference.Values.Length != Values.Length)
+                throw new ArgumentException("Wrong number of values");
+            for (int index = 0; index < Values.Length; index++)
+                Values[index] = otherReference.Values[index];
+            Suffix = otherReference.Suffix;
+        }
     }
 }

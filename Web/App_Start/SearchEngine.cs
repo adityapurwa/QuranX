@@ -69,7 +69,10 @@ namespace QuranX
 			out int totalResults,
 			int maxResults = 100)
 		{
-			totalResults = 0;
+#if DEBUG
+            maxResults = 2000;
+#endif
+            totalResults = 0;
 			if (string.IsNullOrEmpty(queryString))
 				return new List<SearchResult>();
 
@@ -101,7 +104,7 @@ namespace QuranX
 			var fq = fvh.GetFieldQuery(query);
 			foreach (var scoreDoc in resultsCollector.TopDocs().ScoreDocs)
 			{
-				string[] fragments = fvh.GetBestFragments(fq, indexSearcher.IndexReader, scoreDoc.Doc, "Body", 100, 5);
+                string[] fragments = fvh.GetBestFragments(fq, indexSearcher.IndexReader, scoreDoc.Doc, "Body", 100, 5);
 				var doc = indexSearcher.Doc(scoreDoc.Doc);
 				var searchResult = new SearchResult(
 					type: doc.Get("Type"),
@@ -197,23 +200,12 @@ namespace QuranX
 							values: hadith.ArabicText.Select(x => x)
 						);
 
-					//Add main index
-					int referencePartIndex = 0;
-					var referenceBuilder = new StringBuilder();
-					referenceBuilder.AppendLine();
-					foreach (string referencePartName in collection.PrimaryReferenceDefinition.PartNames)
-					{
-						referenceBuilder.AppendLine(
-							referencePartName + "=" + hadith.PrimaryReference[referencePartIndex]
-						);
-						referencePartIndex++;
-					}
-
-					var secondaryReferencesBuilder = new StringBuilder();
-					secondaryReferencesBuilder.AppendLine();
-					foreach (var secondaryReference in hadith.References.Where(x => x != hadith.PrimaryReference))
-						secondaryReferencesBuilder.AppendLine(secondaryReference + ""); //TODO: Check
-					body += secondaryReferencesBuilder.ToString();
+					//Add indexes
+					var referencesBuilder = new StringBuilder();
+					referencesBuilder.AppendLine();
+					foreach (var reference in hadith.References)
+						referencesBuilder.AppendLine(reference + "");
+					body += referencesBuilder.ToString();
 
 					var doc = new Document();
 					doc.Add(CreateField(name: "ID", value : string.Format(

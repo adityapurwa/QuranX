@@ -92,10 +92,10 @@ namespace RationalizingIslam.DocumentModel.Factories
             var arabicTextNode = hadithNode.Element("arabic");
             var arabicText = arabicTextNode.Elements("text").Select(x => x.Value);
             string primaryReferenceCode = Collection.PrimaryReferenceDefinition.Code;
-            var primaryReference = references.Single(x => string.Compare(primaryReferenceCode, x.Code, true) == 0);
+            var primaryReference = references.SingleOrDefault(x => string.Compare(primaryReferenceCode, x.Code, true) == 0);
 
             HashSet<VerseRangeReference> additionalVerseReferences;
-            if (VersesByHadith.TryGetValue(primaryReference, out additionalVerseReferences))
+            if (primaryReference != null && VersesByHadith.TryGetValue(primaryReference, out additionalVerseReferences))
                 verseReferences = verseReferences.Concat(additionalVerseReferences);
 
             var hadith = new Hadith(
