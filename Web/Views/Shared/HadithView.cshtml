@@ -3,17 +3,29 @@
 <article itemscope itemtype="http://schema.org/Article">
     <dl class="hadith">
         @{
+            RationalizingIslam.DocumentModel.HadithReference primaryReference;
+            RationalizingIslam.DocumentModel.HadithReferenceDefinition primaryDefinition;
+            if (Model.Hadith.PrimaryReference != null)
+            {
+                primaryReference = Model.Hadith.PrimaryReference;
+                primaryDefinition = Model.Collection.PrimaryReferenceDefinition;
+            }
+            else
+            {
+                primaryReference = Model.Hadith.References.OrderByDescending(x => x.Code).First();
+                primaryDefinition = Model.Collection.ReferenceDefinitions.Single(x => string.Compare(primaryReference.Code, x.Code, true) == 0);
+            }
             string hadithUrl = Url.Action("Collection", "Hadith", new { CollectionCode = Model.Collection.Code, Path = "" });
             int keyPartIndex = 0;
-            foreach (var referencePart in Model.Hadith.PrimaryReference)
+            foreach (var referencePart in primaryReference)
             {
-                hadithUrl += Model.Collection.PrimaryReferenceDefinition.PartNames[keyPartIndex] + "-" + referencePart + "/";
+                hadithUrl += primaryDefinition.PartNames[keyPartIndex] + "-" + referencePart + "/";
                 keyPartIndex++;
             }
         }
         <dt>
             <a href="@hadithUrl" itemprop="name">
-                @Model.Collection.Name - @Model.Hadith.PrimaryReference.GetCaption(Model.Collection.PrimaryReferenceDefinition.PartNames)
+                @primaryDefinition.Name - @primaryReference.GetCaption(primaryDefinition.PartNames)
             </a>
         </dt>
         <dd itemprop="articleBody">
