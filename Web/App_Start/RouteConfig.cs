@@ -312,17 +312,33 @@ namespace QuranX
 				);
 		}
 
-		static void RegisterQuranRoutes(RouteCollection routes)
-		{
-			routes.MapRoute(
-					name: "Quran",
-					url: "",
-					defaults: new
-					{
-						Controller = "Quran",
-						Action = "Chapters",
-					}
-				);
+        static void RegisterQuranRoutes(RouteCollection routes)
+        {
+            routes.MapRoute(
+                    name: "Quran",
+                    url: "",
+                    defaults: new
+                    {
+                        Controller = "Quran",
+                        Action = "Chapters",
+                    }
+                );
+
+            routes.MapRoute(
+                name: "",
+                url: "{Chapter}",
+                defaults: new
+                {
+                    Controller = "Quran",
+                    Action = "Verse",
+                    Verse = 1,
+                    LastVerse = 999
+                },
+                constraints: new
+                {
+                    Chapter = @"\d+"
+                }
+                );
 
 			routes.MapRoute(
 					name: "",
