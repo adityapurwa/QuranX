@@ -324,22 +324,6 @@ namespace QuranX
                     }
                 );
 
-            routes.MapRoute(
-                name: "",
-                url: "{Chapter}",
-                defaults: new
-                {
-                    Controller = "Quran",
-                    Action = "Verse",
-                    Verse = 1,
-                    LastVerse = 999
-                },
-                constraints: new
-                {
-                    Chapter = @"\d+"
-                }
-                );
-
 			routes.MapRoute(
 					name: "",
 					url: "{Chapter}.{Verse}-{LastVerse}",

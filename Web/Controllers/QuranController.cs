@@ -31,13 +31,15 @@ namespace QuranX.Controllers
 			int verse, 
 			int lastVerse, 
 			string fromSearch, //Legacy
-			string allTranslations)
+			string allTranslations,
+            int context = 0)
 		{
 			ViewBag.AllTranslations =
 				string.Compare(allTranslations, "y", true) == 0
 				|| string.Compare(fromSearch, "y", true) == 0;
+            ViewBag.AnchorPoint = chapter + "." + verse;
 
-			var model = CreateVersesModel(null, chapter, verse, lastVerse);
+			var model = CreateVersesModel(null, chapter, verse, lastVerse, context);
 			return View(model);
 		}
 
@@ -46,10 +48,11 @@ namespace QuranX.Controllers
 			string[] translations, 
 			int chapter, 
 			int verse, 
-			int lastVerse)
+			int lastVerse,
+            int context = 0)
 		{
 			ResetTranslations(ref translations);
-			var model = CreateVersesModel(translations, chapter, verse, lastVerse);
+			var model = CreateVersesModel(translations, chapter, verse, lastVerse, context);
 			return PartialView("VersesView", model.Verses);
 		}
 
@@ -90,8 +93,17 @@ namespace QuranX.Controllers
 			string[] translations, 
 			int chapter, 
 			int verse, 
-			int lastVerse)
+			int lastVerse,
+            int numberOfVersesBeforeAndAfter)
 		{
+            if (lastVerse == -1)
+                lastVerse = verse;
+
+            verse -= numberOfVersesBeforeAndAfter;
+            if (verse < 1)
+                verse = 1;
+            lastVerse += numberOfVersesBeforeAndAfter;
+
 			ViewBag.Chapter = chapter;
 			ViewBag.Verse = verse;
 			ViewBag.CanShowVerseRange = true;

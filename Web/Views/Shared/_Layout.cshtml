@@ -5,9 +5,9 @@
     @RenderSection("head_meta", required: false)
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/modernizr")
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<meta property="og:image" content="http://QuranX.com/Content/Images/QuranXSocialIcon.png" />
 	<meta property="og:title" content="QuranX.com The most complete Quran / Hadith / Tafsir collection available!" />
@@ -105,5 +105,16 @@
 			$('#socialButtons').fadeTo(0, 0.01).delay(1000).fadeTo(1000,1);
 		});
 	</script>
+
+    @if (ViewBag.AnchorPoint != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var tag = $('a[name="@ViewBag.AnchorPoint"]');
+                $('html,body').animate({ scrollTop: tag.offset().top - 50}, 'slow');
+
+		});
+        </script>
+    }
 </body>
 </html>
