@@ -120,11 +120,12 @@ namespace QuranX.Controllers
 		{
 			if (translations == null)
 			{
-				if (Request.Cookies.AllKeys.Contains("translations"))
-					translations = Request.Cookies["translations"].Value.Split(',');
-				else
-					translations = new string[] { "YusufAli", "Pickthall", "Arabic" };
-			}
+                if (Request.Cookies.AllKeys.Contains("translations"))
+                    translations = Request.Cookies["translations"].Value.Split(',');
+                else
+                    translations = SharedData.Document.QuranDocument.GetAllTranslatorCodes();
+
+            }
 			ViewBag.Translations = new HashSet<string>(translations, StringComparer.InvariantCultureIgnoreCase);
 		}
 

@@ -8,6 +8,7 @@ namespace RationalizingIslam.DocumentModel
 	public class QuranDocument
 	{
 		readonly Dictionary<int, Chapter> _Chapters;
+        string[] AllTranslationCodes;
 
 		public QuranDocument()
 		{
@@ -72,6 +73,16 @@ namespace RationalizingIslam.DocumentModel
 				.Distinct();
 		}
 
+        public string[] GetAllTranslatorCodes()
+        {
+            if (AllTranslationCodes == null)
+            {
+                var codes = this[1, 1].Translations.Select(x => x.TranslatorCode).ToList();
+                codes.Add("Arabic");
+                AllTranslationCodes = codes.ToArray();
+            }
+            return AllTranslationCodes;
+        }
 
 
 	}
