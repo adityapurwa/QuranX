@@ -149,16 +149,18 @@ namespace QuranX.Controllers
 
 						case "Hadith":
 							string hadithCollectionCode = idParts[0];
-							string[] hadithReferenceParts = idParts[1].Split('.');
+                            string indexCode = idParts[1];
+							string[] hadithReferenceParts = idParts[2].Split('.');
 							var hadithCollection = SharedData.Document.HadithDocument[hadithCollectionCode];
+                            var referenceDefinition = hadithCollection.GetReferenceDefinition(indexCode);
 							int referencePartIndex = 0;
 							url = "";
-							foreach (string referencePartName in hadithCollection.PrimaryReferenceDefinition.PartNames)
+							foreach (string referencePartName in referenceDefinition.PartNames)
 								url += string.Format("{0}-{1}/", referencePartName, hadithReferenceParts[referencePartIndex++]);
 							id = url
 								.Replace("/", " ")
 								.Replace("-", " ");
-							url = "/Hadith/" + hadithCollection.Code + "/" + url;
+							url = "/Hadith/" + hadithCollection.Code + "/ByIndex/" + indexCode + "/" + url;
 							caption = SharedData.Document.HadithDocument[hadithCollectionCode].Name;
 							break;
 

@@ -208,8 +208,9 @@ namespace QuranX
 					body += referencesBuilder.ToString();
 
 					var doc = new Document();
+                    var primaryReference = hadith.PrimaryReference ?? hadith.References.First();
 					doc.Add(CreateField(name: "ID", value : string.Format(
-						"{0}/{1}", collection.Code, hadith.PrimaryReference
+						"{0}/{1}/{2}", collection.Code, primaryReference.Code, primaryReference
 						))
 					);
 					doc.Add(CreateField(name: "Type", value: "Hadith"));
