@@ -84,7 +84,7 @@ namespace RationalizingIslam.DocumentModel.XmlStreaming
         void WriteHadithReferences(Hadith hadith)
         {
             using (Xml.WriteElement("references"))
-                foreach (var reference in hadith.References)
+                foreach (var reference in hadith.References.OrderBy(x => x.Code))
                     WriteHadithReference(reference);
         }
 
