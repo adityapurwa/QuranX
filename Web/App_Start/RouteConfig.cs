@@ -21,8 +21,6 @@ namespace QuranX
 			RegisterHadithRoutes(routes);
 			RegisterSearchRoutes(routes);
 			RegisterMiscRoutes(routes);
-			//
-			RegisterMovedRoutes(routes);
 		}
 
 		static void RegisterMiscRoutes(RouteCollection routes)
@@ -68,62 +66,6 @@ namespace QuranX
 					Action = "Help"
 				}
 			);
-
-		}
-
-		static void RegisterMovedRoutes(RouteCollection routes)
-		{
-			routes.MapRoute(
-				name: "",
-				url: "Analysis/{Chapter}/{Verse}",
-				defaults: new
-				{
-					Controller = "Redirect",
-					Action = "Redirect",
-					NewController = "Analysis",
-					NewAction = "Verse"
-				},
-				constraints: new
-				{
-					Chapter = @"\d+",
-					Verse = @"\d+"
-				}
-			);
-
-			routes.MapRoute(
-				name: "",
-				url: "Tafsirs/{Chapter}/{Verse}",
-				defaults: new
-				{
-					Controller = "Redirect",
-					Action = "Redirect",
-					NewController = "TafsirsByVerse",
-					NewAction = "Verse"
-				},
-				constraints: new
-				{
-					Chapter = @"\d+",
-					Verse = @"\d+"
-				}
-			);
-
-			routes.MapRoute(
-				name: "",
-				url: "Hadiths/{Chapter}/{Verse}",
-				defaults: new
-				{
-					Controller = "Redirect",
-					Action = "Redirect",
-					NewController = "HadithsByVerse",
-					NewAction = "Verse"
-				},
-				constraints: new
-				{
-					Chapter = @"\d+",
-					Verse = @"\d+"
-				}
-			);
-
 
 		}
 
@@ -184,7 +126,7 @@ namespace QuranX
 
             routes.MapRoute(
                 name: "",
-                url: "Hadith/{CollectionCode}/ByIndex/{IndexCode}/{*Path}",
+                url: "Hadith/{CollectionCode}/{IndexCode}/{*Path}",
                 defaults: new
                 {
                     Controller = "Hadith",
@@ -192,19 +134,6 @@ namespace QuranX
                     Path = UrlParameter.Optional
                 }
             );
-
-            routes.MapRoute(
-				name: "",
-				url: "Hadith/{CollectionCode}/{*Path}",
-				defaults: new
-				{
-					Controller = "Hadith",
-					Action = "Collection",
-                    IndexCode = (string)null,
-					Path = UrlParameter.Optional
-				}
-			);
-
 		}
 
 		static void RegisterTafsirRoutes(RouteCollection routes)

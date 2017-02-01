@@ -17,7 +17,7 @@
     @foreach (var collection in Model)
     {
         <li>
-            @Html.ActionLink(collection.Name, "Collection", new { CollectionCode = collection.Code })
+            @Html.ActionLink(collection.Name, "Collection", new { CollectionCode = collection.Code, IndexCode = collection.PrimaryReferenceDefinition.Code })
         </li>
     }
 </ul>

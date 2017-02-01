@@ -160,7 +160,7 @@ namespace QuranX.Controllers
 							id = url
 								.Replace("/", " ")
 								.Replace("-", " ");
-							url = "/Hadith/" + hadithCollection.Code + "/ByIndex/" + indexCode + "/" + url;
+							url = "/Hadith/" + hadithCollection.Code + "/" + indexCode + "/" + url;
 							caption = SharedData.Document.HadithDocument[hadithCollectionCode].Name;
 							break;
 

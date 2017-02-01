@@ -52,7 +52,7 @@ namespace RationalizingIslam.DocumentModel
             var other = obj as HadithReferenceDefinition;
             if (other == null)
                 return false;
-            return ((HadithReferenceDefinition)obj).Code == other.Code;
+            return string.Compare(((HadithReferenceDefinition)obj).Code, other.Code, true) == 0;
         }
 
         public override int GetHashCode()
@@ -67,7 +67,7 @@ namespace RationalizingIslam.DocumentModel
 
         int IComparable<HadithReferenceDefinition>.CompareTo(HadithReferenceDefinition other)
         {
-            return Code.CompareTo(other.Code);
+            return string.Compare(Code, other.Code, true);
         }
     }
 }

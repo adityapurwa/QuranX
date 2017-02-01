@@ -39,7 +39,7 @@ namespace RationalizingIslam.DocumentModel
             this.EnglishText = englishText.ToArray();
 			this.VerseReferences = verseReferences.Distinct().OrderBy(x => x).ToArray();
             ReferencesByCode = references.ToDictionary(x => x.Code, StringComparer.InvariantCultureIgnoreCase);
-            PrimaryReference = GetReference(collection.PrimaryReferenceDefinition.Code);
+            PrimaryReference = GetReference(collection.PrimaryReferenceDefinition.Code) ?? References.First();
 		}
 
         public HadithReference GetReference(string code)

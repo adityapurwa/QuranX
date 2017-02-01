@@ -36,16 +36,9 @@
 <ul class="hadithIndexList">
     @foreach (var referenceDefinition in Model.Collection.ReferenceDefinitions.OrderBy(x => !x.IsPrimary).ThenBy(x => x.Code))
     {
-        string additionalClasses = referenceDefinition.Code == Model.ReferenceDefinition.Code ? "selected" : "not-selected";
+        string additionalClasses = referenceDefinition == Model.ReferenceDefinition ? "selected" : "not-selected";
         <li class="@additionalClasses">
-            @if (referenceDefinition.IsPrimary)
-            {
-                <a href="/Hadith/@Model.Collection.Code">@referenceDefinition.Name</a>
-            }
-            else
-            {
-                <a href="/Hadith/@Model.Collection.Code/ByIndex/@referenceDefinition.Code">@referenceDefinition.Name</a>
-            }
+            <a href="/Hadith/@Model.Collection.Code/ByIndex/@referenceDefinition.Code">@referenceDefinition.Name</a>
         </li>
     }
 </ul>
