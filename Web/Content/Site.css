@@ -357,7 +357,7 @@ dl.countAndLabel {
     }
 
         .hadithIndexList li.selected {
-            background-color: #f0f0f0;
+            background-color: #bfc96e;
             box-shadow: rgba(0, 0, 0, 0.1) 2px 2px inset;
         }
 

@@ -34,11 +34,11 @@
 </hgroup>
 <h3>Alternative indexes</h3>
 <ul class="hadithIndexList">
-    @foreach (var referenceDefinition in Model.Collection.ReferenceDefinitions.OrderBy(x => !x.IsPrimary).ThenBy(x => x.Code))
+    @foreach (var referenceDefinition in Model.Collection.ReferenceDefinitions.OrderBy(x => x.Code))
     {
         string additionalClasses = referenceDefinition == Model.ReferenceDefinition ? "selected" : "not-selected";
         <li class="@additionalClasses">
-            <a href="/Hadith/@Model.Collection.Code/ByIndex/@referenceDefinition.Code">@referenceDefinition.Name</a>
+            <a href="/Hadith/@Model.Collection.Code/@referenceDefinition.Code">@referenceDefinition.Name</a>
         </li>
     }
 </ul>
