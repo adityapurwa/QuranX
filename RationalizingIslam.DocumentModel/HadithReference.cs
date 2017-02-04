@@ -163,8 +163,7 @@ namespace RationalizingIslam.DocumentModel
         {
             if (otherReference.Code != Code)
                 throw new ArgumentException("Cannot assign a HadithReference from a different collection");
-            if (otherReference.Values.Length != Values.Length)
-                throw new ArgumentException("Wrong number of values");
+            Values = new string[otherReference.Values.Length]; 
             for (int index = 0; index < Values.Length; index++)
                 Values[index] = otherReference.Values[index];
             Suffix = otherReference.Suffix;
