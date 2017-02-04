@@ -57,6 +57,20 @@ namespace RationalizingIslam.DocumentModel
             return (this as IComparable).CompareTo(other);
         }
 
+        public bool IsPartialMatch(string[] patternValues)
+        {
+            if (patternValues == null || patternValues.Length != Values.Length)
+                return false;
+            for (int i = 0; i < patternValues.Length; i++)
+            {
+                string referencePartValue = Values[i];
+                string patternPartValue = patternValues[i];
+                if (patternPartValue != "*" && patternPartValue != referencePartValue)
+                    return false;
+            }
+            return true;
+        }
+
         public override string ToString()
         {
             return string.Join(
