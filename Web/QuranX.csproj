@@ -193,6 +193,7 @@
     <Content Include="App_Data\HadithXRefs\MaliksMuwatta.txt" />
     <Content Include="App_Data\HadithXRefs\Muslim.txt" />
     <Content Include="App_Data\HadithXRefs\Nasai.txt" />
+    <Content Include="App_Data\HadithXRefs\Tirmidhi.txt" />
     <Content Include="App_Data\MissingRoots.txt" />
     <Content Include="App_Data\Tafsirs\Abbas.xml" />
     <Content Include="App_Data\Tafsirs\Asrar.xml" />

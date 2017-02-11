@@ -49,7 +49,13 @@ namespace RationalizingIslam.DocumentModel.Factories
                 string[] lineValues = line.Split('\t');
                 if (string.IsNullOrEmpty(lineValues[0]))
                     continue;
-                var hadithReference = new HadithReference(Collection.PrimaryReferenceDefinition.Code, lineValues[0].Split('.'), null);
+
+                HadithReference hadithReference;
+                string[] referenceCodeAndValue = lineValues[0].Split('/');
+                if (referenceCodeAndValue.Length == 1)
+                    hadithReference = new HadithReference(Collection.PrimaryReferenceDefinition.Code, lineValues[0].Split('.'), null);
+                else
+                    hadithReference = new HadithReference(referenceCodeAndValue[0], referenceCodeAndValue[1].Split('.'), null);
                 foreach (string verseRangeReferenceText in lineValues.Skip(1))
                 {
                     if (string.IsNullOrWhiteSpace(verseRangeReferenceText))
@@ -91,12 +97,16 @@ namespace RationalizingIslam.DocumentModel.Factories
             var englishText = englishTextNode.Elements("text").Select(x => x.Value);
             var arabicTextNode = hadithNode.Element("arabic");
             var arabicText = arabicTextNode.Elements("text").Select(x => x.Value);
-            string primaryReferenceCode = Collection.PrimaryReferenceDefinition.Code;
-            var primaryReference = references.SingleOrDefault(x => string.Compare(primaryReferenceCode, x.Code, true) == 0);
 
-            HashSet<VerseRangeReference> additionalVerseReferences;
-            if (primaryReference != null && VersesByHadith.TryGetValue(primaryReference, out additionalVerseReferences))
-                verseReferences = verseReferences.Concat(additionalVerseReferences);
+            foreach (HadithReference reference in references)
+            {
+                HashSet<VerseRangeReference> additionalVerseReferences;
+                if (VersesByHadith.TryGetValue(reference, out additionalVerseReferences))
+                {
+                    verseReferences = verseReferences.Concat(additionalVerseReferences);
+                    break;
+                }
+            }
 
             var hadith = new Hadith(
                 collection: Collection,

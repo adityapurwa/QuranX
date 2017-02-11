@@ -35,7 +35,6 @@ namespace QuranX.Models
                 path.Split('/')
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => x.Trim())
-                .Where(x => x != "")
                 .Select(x =>
                     {
                         string[] keyAndValue = x.Split('-');
