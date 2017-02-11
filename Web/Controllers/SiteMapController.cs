@@ -12,7 +12,7 @@ namespace QuranX.Controllers
     {
         const string Domain = "http://QuranX.com";
         const int PageSize = 10 * 1000;
-        readonly DateTime LastMod = DateTime.UtcNow;
+        readonly DateTime LastMod = new DateTime(2016, 02, 11, 18, 18, 00);
 
         public SiteMapResult Quran()
         {
