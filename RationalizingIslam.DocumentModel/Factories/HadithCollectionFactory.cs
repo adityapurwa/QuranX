@@ -173,6 +173,7 @@ namespace RationalizingIslam.DocumentModel.Factories
                     bool isPrimary = bool.Parse(referenceDefinitionNode.Element("isPrimary").Value);
                     string code = referenceDefinitionNode.Element("code").Value;
                     string name = referenceDefinitionNode.Element("name").Value;
+                    string valuePrefix = referenceDefinitionNode.Element("valuePrefix")?.Value;
                     var partNames = new List<string>();
                     var partsNode = referenceDefinitionNode.Element("parts");
                     foreach (XElement partNode in partsNode.Elements("part"))
@@ -181,7 +182,8 @@ namespace RationalizingIslam.DocumentModel.Factories
                         isPrimary: isPrimary,
                         code: code,
                         name: name,
-                        partNames: partNames);
+                        partNames: partNames,
+                        valuePrefix: valuePrefix);
                     result.Add(definition);
                 }
             }
