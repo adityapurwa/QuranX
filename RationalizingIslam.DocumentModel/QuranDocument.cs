@@ -73,6 +73,11 @@ namespace RationalizingIslam.DocumentModel
 				.Distinct();
 		}
 
+        public string[] GetDefaultTranslatorCodes()
+        {
+            return new string[] { "Pickthall", "YusufAli", "SahihIntl", "Arabic" };
+        }
+
         public string[] GetAllTranslatorCodes()
         {
             if (AllTranslationCodes == null)

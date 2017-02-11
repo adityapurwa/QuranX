@@ -124,7 +124,7 @@ namespace QuranX.Controllers
                 if (Request.Cookies.AllKeys.Contains("translations"))
                     translations = Request.Cookies["translations"].Value.Split(',');
                 else
-                    translations = SharedData.Document.QuranDocument.GetAllTranslatorCodes();
+                    translations = SharedData.Document.QuranDocument.GetDefaultTranslatorCodes();
 
             }
             ViewBag.Translations = new HashSet<string>(translations, StringComparer.InvariantCultureIgnoreCase);
