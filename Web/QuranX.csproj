@@ -190,7 +190,7 @@
     <Content Include="App_Data\Hadiths\Tirmidhi.xml" />
     <Content Include="App_Data\HadithXRefs\AbuDawud.txt" />
     <Content Include="App_Data\HadithXRefs\Bukhari.txt" />
-    <Content Include="App_Data\HadithXRefs\MaliksMuwatta.txt" />
+    <Content Include="App_Data\HadithXRefs\Malik.txt" />
     <Content Include="App_Data\HadithXRefs\Muslim.txt" />
     <Content Include="App_Data\HadithXRefs\Nasai.txt" />
     <Content Include="App_Data\HadithXRefs\Tirmidhi.txt" />
