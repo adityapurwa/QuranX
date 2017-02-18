@@ -31,6 +31,13 @@
             }
         }
     </h2>
+    <h2>
+        @{ 
+            int hadithCount = Model.HadithsInCurrentSelection.Count();
+            string plural = hadithCount == 1 ? "" : "s";
+        }
+        @hadithCount Hadith@(plural)
+    </h2>
 </hgroup>
 <h3>Alternative indexes</h3>
 <ul class="hadithIndexList">
