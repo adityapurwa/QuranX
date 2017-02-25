@@ -125,7 +125,7 @@ namespace QuranX.Controllers
 				q = "+" + additionalFilter.Key + ":" + additionalFilter.Value + " " + q;
 
 			int totalResults;
-			var model = SearchEngine.Search(q, out totalResults)
+			var model = SearchEngine.Search(q, out totalResults, 500)
 				.ToList()
 				.ConvertAll(x =>
 				{
@@ -142,8 +142,10 @@ namespace QuranX.Controllers
 							break;
 
 						case "Tafsir":
-							url = "/Tafsir/" + x.ID.Split('-')[0];
-							caption = SharedData.Document.TafsirDocument[idParts[0]].Mufassir;
+                            RationalizingIslam.DocumentModel.Tafsir tafsir;
+                            SharedData.Document.TafsirDocument.TryGetTafsir(idParts[0], out tafsir);
+                            url = "/Tafsir/" + x.ID.Split('-')[0];
+                            caption = tafsir != null ? tafsir.Mufassir : idParts[0];
 							id = idParts[1];
 							break;
 
