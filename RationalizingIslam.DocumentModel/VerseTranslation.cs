@@ -1,6 +1,6 @@
 ﻿namespace RationalizingIslam.DocumentModel
 {
-	public struct VerseTranslation
+	public class VerseTranslation
 	{
 		public readonly string TranslatorCode;
 		public readonly string TranslatorName;

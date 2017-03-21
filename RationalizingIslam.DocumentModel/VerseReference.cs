@@ -2,7 +2,7 @@
 
 namespace RationalizingIslam.DocumentModel
 {
-	public struct VerseReference :
+	public class VerseReference :
 		IComparable,
 		IComparable<VerseReference>
 	{
@@ -10,7 +10,6 @@ namespace RationalizingIslam.DocumentModel
 		public readonly int Verse;
 
 		public VerseReference(int chapter, int verse)
-			: this()
 		{
 			this.Chapter = chapter;
 			this.Verse = verse;

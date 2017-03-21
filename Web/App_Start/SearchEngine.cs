@@ -18,7 +18,7 @@ namespace QuranX
 {
 	public static class SearchEngine
 	{
-		public struct SearchResult
+		public class SearchResult
 		{
 			public readonly string Type;
 			public readonly string ID;
@@ -28,7 +28,6 @@ namespace QuranX
 				string type,
 				string id,
 				IEnumerable<string> snippets)
-				: this()
 			{
 				this.Type = type;
 				this.ID = id;

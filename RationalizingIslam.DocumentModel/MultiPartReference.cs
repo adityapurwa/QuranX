@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace RationalizingIslam.DocumentModel
 {
-	public struct MultiPartReference : 
+	public class MultiPartReference : 
 		IComparable,
 		IComparable<MultiPartReference>,
 		IEnumerable<string>
@@ -15,7 +15,6 @@ namespace RationalizingIslam.DocumentModel
 		public readonly bool IsValid;
 
 		public MultiPartReference(IEnumerable<string> parts)
-			: this()
 		{
 			Parts = parts.ToArray();
 			IsValid = parts.Any();

@@ -18,6 +18,11 @@ namespace RationalizingIslam.DocumentModel
 			get { return _Tafsirs[code]; }
 		}
 
+        public bool TryGetTafsir(string code, out Tafsir tafsir)
+        {
+            return _Tafsirs.TryGetValue(code, out tafsir);
+        }
+
 		public void AddTafsir(Tafsir tafsir)
 		{
 			_Tafsirs.Add(tafsir.Code, tafsir);

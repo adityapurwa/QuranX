@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RationalizingIslam.DocumentModel
 {
-	public struct VerseRangeReference :
+	public class VerseRangeReference :
 		IComparable,
 		IComparable<VerseRangeReference>,
 		IEnumerable<VerseReference>
@@ -14,7 +14,6 @@ namespace RationalizingIslam.DocumentModel
 		public readonly int LastVerse;
 
 		public VerseRangeReference(int chapter, int firstVerse, int lastVerse)
-			: this()
 		{
 			this.Chapter = chapter;
 			this.FirstVerse = firstVerse;
