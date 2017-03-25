@@ -47,8 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\Chapter.cs" />
+    <Compile Include="Migrations\201703252041151_Add chapter.cs" />
+    <Compile Include="Migrations\201703252041151_Add chapter.Designer.cs">
+      <DependentUpon>201703252041151_Add chapter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ServicesImpl\ObjectSpace.cs" />
     <Compile Include="ServicesImpl\Registration.cs" />
     <Compile Include="Services\IServiceRegistration.cs" />
@@ -56,6 +66,19 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Quran\Quran_Structure.xml" />
+    <Content Include="Resources\Quran\Quran_Uthman.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201703252041151_Add chapter.resx">
+      <DependentUpon>201703252041151_Add chapter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
