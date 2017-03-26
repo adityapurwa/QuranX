@@ -118,10 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Quran_Structure" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Quran\Quran_Structure.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Tafsir_Abbas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Abbas.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Quran_Uthman" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Quran\Quran_Uthman.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Tafsir_Asrar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Asrar.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Jalal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Jalal.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Kashani" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Kashani.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Kathir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Kathir.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Maududi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Maududi.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Qushairi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Qushairi.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Tustari" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Tustari.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tafsir_Wahidi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tafsirs\Tafsir_Wahidi.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

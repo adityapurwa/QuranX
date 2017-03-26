@@ -7,6 +7,6 @@ namespace QuranX.DomainLayer.ServicesImpl
 	{
 		public ObjectSpace() : base("DefaultConnection") { }
 
-		public DbSet<Chapter> Chapters { get; set; }
+		public DbSet<TafsirVerse> TafsirVerses { get; set; }
 	}
 }

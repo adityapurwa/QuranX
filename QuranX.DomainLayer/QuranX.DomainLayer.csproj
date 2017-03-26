@@ -47,10 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel\Chapter.cs" />
-    <Compile Include="Migrations\201703252041151_Add chapter.cs" />
-    <Compile Include="Migrations\201703252041151_Add chapter.Designer.cs">
-      <DependentUpon>201703252041151_Add chapter.cs</DependentUpon>
+    <Compile Include="DataModel\TafsirVerse.cs" />
+    <Compile Include="Migrations\201703261931054_Add TafsirVerse.cs" />
+    <Compile Include="Migrations\201703261931054_Add TafsirVerse.Designer.cs">
+      <DependentUpon>201703261931054_Add TafsirVerse.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,17 +68,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Quran\Quran_Structure.xml" />
-    <Content Include="Resources\Quran\Quran_Uthman.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703252041151_Add chapter.resx">
-      <DependentUpon>201703252041151_Add chapter.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703261931054_Add TafsirVerse.resx">
+      <DependentUpon>201703261931054_Add TafsirVerse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\Tafsirs\Tafsir_Abbas.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Asrar.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Jalal.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Kashani.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Kathir.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Maududi.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Qushairi.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Tustari.xml" />
+    <Content Include="Resources\Tafsirs\Tafsir_Wahidi.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
