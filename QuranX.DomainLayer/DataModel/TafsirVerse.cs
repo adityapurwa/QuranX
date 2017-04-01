@@ -12,15 +12,17 @@ namespace QuranX.DomainLayer.DataModel
 		[Key, Column(Order = 2)]
 		public int FirstVerse { get; private set; }
 		public int LastVerse { get; private set; }
+		public string Commentary { get; private set; }
 
 		public TafsirVerse() { }
 
-		public TafsirVerse(string tafsirCode, int chapter, int firstVerse, int lastVerse)
+		public TafsirVerse(string tafsirCode, int chapter, int firstVerse, int lastVerse, string commentary)
 		{
 			this.TafsirCode = tafsirCode;
 			this.Chapter = chapter;
 			this.FirstVerse = firstVerse;
 			this.LastVerse = lastVerse;
+			this.Commentary = commentary;
 		}
 	}
 }
